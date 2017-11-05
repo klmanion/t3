@@ -89,7 +89,8 @@ POST_UNINSTALL = :
 bin_PROGRAMS = t3$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -99,7 +100,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_t3_OBJECTS = main.$(OBJEXT)
+am_t3_OBJECTS = main.$(OBJEXT) SDL_err_ext.$(OBJEXT)
 t3_OBJECTS = $(am_t3_OBJECTS)
 t3_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -115,7 +116,7 @@ am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
 am__v_at_0 = @
 am__v_at_1 = 
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
@@ -156,18 +157,19 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/config/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/missing aclocal-1.15
+ACLOCAL = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/config/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
-AUTOCONF = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/missing autoconf
-AUTOHEADER = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/missing autoheader
-AUTOMAKE = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/missing automake-1.15
+AUTOCONF = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/config/missing autoconf
+AUTOHEADER = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/config/missing autoheader
+AUTOMAKE = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/config/missing automake-1.15
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
+CFLAGS = -g -O2 -F/Library/Frameworks -framework SDL2 -I/Library/Frameworks/SDL2.framework/include
+CPP = gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -175,7 +177,9 @@ DEPDIR = .deps
 ECHO_C = \c
 ECHO_N = 
 ECHO_T = 
+EGREP = /usr/bin/grep -E
 EXEEXT = 
+GREP = /usr/bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -183,10 +187,10 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = 
+LIBS =  -F/Library/Frameworks -framework SDL2
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/missing makeinfo
-MKDIR_P = .././install-sh -c -d
+MAKEINFO = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/config/missing makeinfo
+MKDIR_P = ../config/install-sh -c -d
 OBJEXT = o
 PACKAGE = t3
 PACKAGE_BUGREPORT = klmanion@gmail.com
@@ -196,6 +200,13 @@ PACKAGE_TARNAME = t3
 PACKAGE_URL = 
 PACKAGE_VERSION = 0.1
 PATH_SEPARATOR = :
+PKG_CONFIG = /usr/local/bin/pkg-config
+PKG_CONFIG_LIBDIR = 
+PKG_CONFIG_PATH = 
+SDL2_CONFIG = no
+SDL2_FRAMEWORK = 
+SDL_CFLAGS = -F/Library/Frameworks -framework SDL2 -I/Library/Frameworks/SDL2.framework/include
+SDL_LIBS = -F/Library/Frameworks -framework SDL2
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = 
@@ -211,18 +222,18 @@ am__quote =
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 bindir = ${exec_prefix}/bin
-build_alias = clean
+build_alias = 
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host_alias = clean
+host_alias = 
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/install-sh
+install_sh = ${SHELL} /Users/kurtlmanion/Programming/Projects/t3/config/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -238,11 +249,11 @@ sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
-target_alias = clean
+target_alias = 
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-t3_SOURCES = main.c
+t3_SOURCES = main.c SDL_err_ext.c
 all: all-am
 
 .SUFFIXES:
@@ -329,6 +340,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/SDL_err_ext.Po
 include ./$(DEPDIR)/main.Po
 
 .c.o:
