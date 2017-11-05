@@ -1,4 +1,5 @@
 # t3 Development Team
 
-James Svoboda
+[Jim Svoboda](//github.com/jimsvoboda)
+
 [Kurt L. Manion](//github.com/klmanion)
