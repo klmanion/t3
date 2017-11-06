@@ -1,6 +1,7 @@
 # .gitignore
 
 *.swp
+.deps
 
 # automake
 Makefile.in
@@ -13,7 +14,7 @@ Makefile
 /config
 /config.*
 /configure
-/configure.*
+/configure.in
 /depcomp
 /install-sh
 /missing
