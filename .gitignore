@@ -10,7 +10,6 @@ Makefile
 /autom4te.cache
 /aclocal.m4
 /compile
-/config
 /config.*
 /configure
 /configure.*
