@@ -13,7 +13,6 @@ Makefile
 /compile
 /config
 /config.*
-/configure
 /configure.in
 /depcomp
 /install-sh
