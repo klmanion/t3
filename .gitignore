@@ -11,7 +11,8 @@ Makefile
 /autom4te.cache
 /aclocal.m4
 /compile
-/config
+/config/**
+!/config/install-sh
 /config.*
 /configure.in
 /depcomp
@@ -21,4 +22,3 @@ Makefile
 
 # m4
 autom4te.cache
-
