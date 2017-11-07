@@ -14,6 +14,7 @@ Makefile
 /config/**
 !/config/install-sh
 /config.*
+/configure
 /configure.in
 /depcomp
 /install-sh
