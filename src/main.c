@@ -57,7 +57,7 @@ main(
 
 				}
 				break;;
-			case SDL_KEYUP
+			case SDL_KEYUP:
 				debuf = 1;
 				break;;
 			case SDL_QUIT:
@@ -66,7 +66,7 @@ main(
 			}
 		}
 		SDL_Delay(100);
-		SDL_SetRenderColor(R, (SDL_Color){0x0, 0x0, 0x0, 0xFF});
+		SDL_SetRenderDrawColor(R, 0x0, 0x0, 0x0, 0xFF);
 		SDL_RenderClear(R);
 		//add drawing commands here
 		SDL_RenderPresent(R);
