@@ -10,13 +10,11 @@
 
 #include <SDL2/SDL.h>
 
+#include "dimensions.h"
 #include "field.h"
 #include "SDL_err_ext.h"
 
 #define SDL_CWAR SDL_CreateWindowAndRenderer
-
-#define HEIGHT	(480)
-#define WIDTH	(640)
 
 #define window_flags SDL_WINDOW_SHOWN
 
