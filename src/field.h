@@ -1,8 +1,8 @@
 //field.h
 //
 
-#ifndef __FIELD_H__
-#define __FIELD_H__
+#ifndef _FIELD_H_
+#define _FIELD_H_
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -33,4 +33,4 @@ field_t*	field_free __P((field_t *));
 __END_DECLS
 
 
-#endif /* __FIELD_H__ */
+#endif /* !_FIELD_H_ */
