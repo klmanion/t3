@@ -10,6 +10,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "field.h"
 #include "SDL_err_ext.h"
 
 #define SDL_CWAR SDL_CreateWindowAndRenderer
@@ -30,9 +31,11 @@ main(
 	int debuf, running;
 	SDL_Event e;
 	time_t t0;
+	field_t *field = NULL;
 	
 	debuf = running = 1;
 	srand((unsigned int)time(&t0));
+	field_generate(3, field);
 
 	/* SDL initiallization */
 	if (SDL_Init(1) < 0)
@@ -79,6 +82,9 @@ main(
 
 	SDL_VideoQuit();
 	SDL_Quit();
+
+	/* generic cleanup */
+	field = field_free(field);
 
 	return EXIT_SUCCESS;
 }
