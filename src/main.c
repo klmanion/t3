@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <err.h>
+#include <time.h>
 
 #include <SDL2/SDL.h>
-//#include <SDL2_image/SDL_image.h>
 
 #include "SDL_err_ext.h"
 
@@ -27,6 +27,14 @@ main(
 	int argc,
 	char *const argv[])
 {
+	int debuf, running;
+	SDL_Event e;
+	time_t t0;
+	
+	debuf = running = 1;
+	srand((unsigned int)time(&t0));
+
+	/* SDL initiallization */
 	if (SDL_Init(1) < 0)
 		SDL_die();
 
@@ -38,6 +46,39 @@ main(
 
 	if (SDL_CWAR(WIDTH, HEIGHT, window_flags, &window, &R)!=0)
 		SDL_die();
+
+	while (running) {
+		while (SDL_PollEvent(&e)) {
+			switch (e.type)
+			{
+			case SDL_KEYDOWN:
+				switch (e.key.keysym.sym)
+				{
+
+				}
+				break;;
+			case SDL_KEYUP:
+				debuf = 1;
+				break;;
+			case SDL_QUIT:
+				running = 0;
+				break;;
+			}
+		}
+		SDL_Delay(100);
+		SDL_SetRenderDrawColor(R, 0x0, 0x0, 0x0, 0xFF);
+		SDL_RenderClear(R);
+		//add drawing commands here
+		SDL_RenderPresent(R);
+	}
+
+
+	/* SDL cleanup */
+	SDL_DestroyRenderer(R); R=NULL;
+	SDL_DestroyWindow(window); window=NULL;
+
+	SDL_VideoQuit();
+	SDL_Quit();
 
 	return EXIT_SUCCESS;
 }
