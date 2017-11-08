@@ -14,6 +14,8 @@
 #include "field.h"
 #include "SDL_err_ext.h"
 
+#include "../config.h"
+
 #define SDL_CWAR SDL_CreateWindowAndRenderer
 
 #define window_flags SDL_WINDOW_SHOWN
@@ -33,7 +35,7 @@ main(
 	
 	debuf = running = 1;
 	srand((unsigned int)time(&t0));
-	field_generate(3, field);
+	field_generate(4, &field);
 
 	/* SDL initiallization */
 	if (SDL_Init(1) < 0)
@@ -69,10 +71,9 @@ main(
 		SDL_Delay(100);
 		SDL_SetRenderDrawColor(R, 0x0, 0x0, 0x0, 0xFF);
 		SDL_RenderClear(R);
-		//add drawing commands here
+		field_render(R, field);
 		SDL_RenderPresent(R);
 	}
-
 
 	/* SDL cleanup */
 	SDL_DestroyRenderer(R); R=NULL;
