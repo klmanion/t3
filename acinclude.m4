@@ -4,7 +4,7 @@
 # stolen back from Frank Belew
 # stolen from Manish Singh
 # Shamelessly stolen from Owen Taylor
-# Edited by Kurt L. Manion, bcecause it was broken
+# Edited by Kurt L. Manion, because it was broken
 #
 # Changelog:
 # * also look for SDL2.framework under Mac OS X
