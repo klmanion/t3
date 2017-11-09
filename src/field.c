@@ -52,7 +52,7 @@ field_generate(
 	tw = fwp / dim;
 
 	for (size_t i=0; i<dim+1; ++i) {
-		double ai = a - (a * (i / dim));
+		double ai = a - (a * ((double)i / (double)dim));
 		for (size_t j=0; j<dim+1; ++j)
 			fpx[i][j] = (uint32_t)floor(SIDE_MARGIN + ai + tw * j);
 	}
@@ -79,8 +79,8 @@ field_generate(
 				ts[i][j][k].content = tile_blank;
 				ts[i][j][k].box.x1 = fpx[j][k];
 				ts[i][j][k].box.y1 = fpy[i][j];
-				ts[i][j][k].box.x2 = fpx[j+1][k+1];
-				ts[i][j][k].box.y2 = fpy[i+1][j+1];
+				ts[i][j][k].box.x2 = fpx[j][k+1];
+				ts[i][j][k].box.y2 = fpy[i][j+1];
 			}
 		}
 	}
@@ -159,6 +159,13 @@ field_render(
 			SDL_RenderDrawLine(R,
 				ts[i][0][j].box.x2,	ts[i][0][j].box.y1,
 				ts[i][f->dim-1][j].box.x2,	ts[i][f->dim-1][j].box.y2);
+
+	//horizontal lines
+	for (size_t i=0; i<f->dim; ++i)
+		for (size_t j=0; j<f->dim-1; ++j)
+			SDL_RenderDrawLine(R,
+				ts[i][j][0].box.x1,	ts[i][j][0].box.y2,
+				ts[i][j][f->dim-1].box.x2,	ts[i][j][f->dim-1].box.y2);
 	
 	return R;
 }
