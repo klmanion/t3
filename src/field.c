@@ -109,10 +109,9 @@ field_free(
 	return f = NULL;
 }
 
-SDL_Rect*
+SDL_Rect* __pure
 box_to_rect(
 	box_t *box,
-	double tw,
 	SDL_Rect *rect)
 {
 	if (!box) {
@@ -126,18 +125,17 @@ box_to_rect(
 
 	rect->x = box->x1;
 	rect->y = box->y1;
-	rect->w = rect->h = (int)floor(tw);
+	rect->w = rect->h = box->x2 - box->x1;
 
 	return rect;
 }
 
-SDL_Rect*
+SDL_Rect* __pure
 tile_to_rect(
 	tile_t *tile,
-	double tw,
 	SDL_Rect *rect)
 {
-	return box_to_rect(&tile->box, tw, rect);
+	return box_to_rect(&tile->box, rect);
 }
 
 SDL_Renderer*

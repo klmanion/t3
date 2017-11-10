@@ -47,8 +47,8 @@ __BEGIN_DECLS
 field_t*	field_generate __P((dim_t,field_t **));
 field_t*	field_free __P((field_t *));
 
-SDL_Rect*	box_to_rect __P((box_t *,double,SDL_Rect *));
-SDL_Rect*	tile_to_rect __P((tile_t *,double,SDL_Rect *));
+SDL_Rect*	box_to_rect __P((box_t *,SDL_Rect *)) __pure;
+SDL_Rect*	tile_to_rect __P((tile_t *,SDL_Rect *)) __pure;
 
 SDL_Renderer*	field_render __P((SDL_Renderer *,field_t *));
 __END_DECLS
