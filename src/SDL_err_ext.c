@@ -32,7 +32,8 @@ SDL_err(
 	va_start(ap, fmt);
 	vsprintf(b, "%s", ap);
 	va_end(ap);
-	SDL_errx(eval, "%s%s%s", SDL_GetError(), (strlen(b)==0)?"":": ", b);
+	SDL_errx(eval, "%s%s%s", SDL_GetError(),
+		(strlen(b)==0)?"":": ", b);
 }
 
 void __dead2
