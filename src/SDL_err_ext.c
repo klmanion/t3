@@ -4,7 +4,7 @@
 #include <string.h>
 #include "SDL_err_ext.h"
 
-void __dead2
+void __printflike(2,3) __dead2
 SDL_errx(
 	int eval,
 	const char *fmt,
@@ -20,7 +20,7 @@ SDL_errx(
 	exit(eval);
 }
 
-void __dead2
+void __printflike(2,3) __dead2
 SDL_err(
 	int eval,
 	const char *fmt,

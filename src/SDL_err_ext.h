@@ -8,8 +8,8 @@
 #include <err.h>
 
 __BEGIN_DECLS
-void	SDL_errx __P((int,const char*,...)) __dead2;
-void	SDL_err __P((int,const char*,...)) __dead2;
+void	SDL_errx __P((int,const char*,...)) __printflike(2,3) __dead2;
+void	SDL_err __P((int,const char*,...)) __printflike(2,3) __dead2;
 void	SDL_die __P((void)) __dead2;
 __END_DECLS
 
