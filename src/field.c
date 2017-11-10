@@ -11,12 +11,14 @@ field_generate(
 	dim_t dim,
 	field_t **field)
 {
-	double a,b,fwp,tw,th;
+	double a,b,fwp,tw,smp,th,tbmp;
 	// height of each board
 	// base of the paralellogram's complementary triangle
 	// field width proper
 	// tile width
+	// side margin proper - used for centering
 	// tile height
+	// top-bot margin proper
 	tile_t ***ts = NULL;
 	field_t *f = NULL;
 
@@ -50,19 +52,21 @@ field_generate(
 	b = a / tan(BOARD_ANGLE);
 	fwp = FIELD_WIDTH - b;
 	tw = fwp / dim;
+	smp = (WIDTH - (a + tw * dim)) / 2;
 
 	for (size_t i=0; i<dim+1; ++i) {
 		double ai = a - (a * ((double)i / (double)dim));
 		for (size_t j=0; j<dim+1; ++j)
-			fpx[i][j] = (uint32_t)floor(SIDE_MARGIN + ai + tw * j);
+			fpx[i][j] = (uint32_t)floor((smp - tw/2) + ai + tw * j);
 	}
 
 	uint32_t fpy[dim][dim+1];
 
 	th = a / dim;
+	tbmp = (HEIGHT - (th * dim * dim + VERT_GAP * (dim-1))) / 2;
 
 	for (size_t i=0; i<dim; ++i) {
-		fpy[i][0] = (uint32_t)floor(TOPBOT_MARGIN + (a + VERT_GAP) * i);
+		fpy[i][0] = (uint32_t)floor(tbmp + (a + VERT_GAP) * i);
 		for (size_t j=1; j<dim+1; ++j)
 			fpy[i][j] = (uint32_t)floor(fpy[i][j-1] + th);
 	}
@@ -88,6 +92,7 @@ field_generate(
 	f->tileset = ts;
 	f->dim = dim;
 	f->tile_width = tw;
+	f->tile_height = th;
 	return f;
 }
 

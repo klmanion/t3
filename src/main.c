@@ -35,7 +35,7 @@ main(
 	
 	debuf = running = 1;
 	srand((unsigned int)time(&t0));
-	field_generate(4, &field);
+	field_generate(3, &field);
 
 	/* SDL initiallization */
 	if (SDL_Init(1) < 0)

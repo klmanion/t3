@@ -4,12 +4,13 @@
 #ifndef _DIMENSIONS_H_
 #define _DIMENSIONS_H_
 
-#define MIN_DIM	(2)
-#define MAX_DIM (9)
+#define MIN_DIM	((dim_t)2)
+#define MAX_DIM ((dim_t)9)
 
 #define WIDTH	(640)
 #define HEIGHT	(480)
 
+//these are actually the minimums
 #define SIDE_MARGIN		((double)(WIDTH/8))
 #define TOPBOT_MARGIN	((double)(HEIGHT/8))
 

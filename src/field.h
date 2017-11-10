@@ -38,6 +38,7 @@ struct _field_t {
 	tile_t ***tileset;
 	dim_t dim;
 	double tile_width;
+	double tile_height;
 } field_t;
 #define field_sz (sizeof(field_t))
 
