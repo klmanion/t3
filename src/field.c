@@ -140,8 +140,6 @@ tile_to_rect(
 	return box_to_rect(&tile->box, tw, rect);
 }
 
-#include <stdio.h>
-
 SDL_Renderer*
 field_render(
 	SDL_Renderer *R,
