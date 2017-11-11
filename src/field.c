@@ -54,7 +54,7 @@ field_generate(
 			fpx[i][j] = fpx[i][j-1] + tw;
 	}
 
-	double fpy[dim][dim+1];
+	double fpy[dim][dim+1]; //field points y-coordinates
 
 	tbmp = (HEIGHT - (th * dim * dim + VERT_GAP * (dim-1))) / 2;
 
