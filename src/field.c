@@ -44,15 +44,15 @@ field_generate(
 	double fpx[dim+1][dim+1]; //field points x-coordinates
 
 	h = (FIELD_HEIGHT - (VERT_GAP * (dim - 1))) / dim;
-	s = h / cos(M_PI/2 - 2 * BOARD_ANGLE);
-	b = s * sin(M_PI/2 - 2 * BOARD_ANGLE);
+	s = h / cos(M_PI_2 - 2 * BOARD_ANGLE);
+	b = s * sin(M_PI_2 - 2 * BOARD_ANGLE);
 	smp = (WIDTH - (s + b)) / 2;
 	tw = s / dim;
 
 	printf("h:%f s:%f b:%f smp:%f tw:%f\n", h, s, b, smp, tw);
 
 	for (size_t i=0; i<dim+1; ++i) {
-		double bi = b * ((double)(dim-i) / (double)dim);
+		double bi = b * ((double)(dim+1-i) / (double)(dim+1));
 		fpx[i][0] = (smp - tw/2) + bi;
 		for (size_t j=1; j<dim+1; ++j)
 			fpx[i][j] = fpx[i][j-1] + tw;
@@ -61,7 +61,7 @@ field_generate(
 	double fpy[dim][dim+1]; //field points y-coordinates
 
 	tbmp = (HEIGHT - (h * dim + VERT_GAP * (dim-1))) / 2;
-	th = h / dim;
+	th = tw * tan(BOARD_ANGLE);
 
 	for (size_t i=0; i<dim; ++i) {
 		fpy[i][0] = tbmp + (h + VERT_GAP) * i;
