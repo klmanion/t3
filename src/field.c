@@ -1,10 +1,11 @@
 //field.c
 //
 
+#include "field.h"
+
 #include <err.h>
 #include <math.h>
 #include "dimensions.h"
-#include "field.h"
 
 field_t*
 field_generate(
