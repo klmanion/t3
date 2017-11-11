@@ -8,14 +8,14 @@
 #include <SDL2/SDL.h>
 
 typedef
-enum __attribute__((packed)) _mark_t {
+enum __attribute__((packed)) _mark {
 	tile_blank = 0,
 	tile_x,
 	tile_o
 } mark_t;
 
 typedef
-struct _box_t {
+struct _box {
 	uint32_t x1;
 	uint32_t y1;
 	uint32_t x2;

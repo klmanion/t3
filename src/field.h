@@ -13,7 +13,7 @@ typedef uint32_t dim_t;
 #define dim_sz (sizeof(dim_t))
 
 typedef
-struct _field_t {
+struct _field {
 	tile_t ***tileset;
 	dim_t dim;
 	double tile_width;
