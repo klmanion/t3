@@ -16,16 +16,16 @@ enum __attribute__((packed)) _mark {
 
 typedef
 struct _box {
-	uint32_t x1;
-	uint32_t y1;
-	uint32_t x2;
-	uint32_t y2;
+	uint32_t	x1;
+	uint32_t	y1;
+	uint32_t	x2;
+	uint32_t	y2;
 } box_t;
 
 typedef
 struct _tile {
-	mark_t content;
-	box_t box;
+	mark_t	content;
+	box_t	box;
 } tile_t;
 #define tile_sz (sizeof(tile_t))
 
