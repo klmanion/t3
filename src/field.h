@@ -4,10 +4,11 @@
 #ifndef _FIELD_H_
 #define _FIELD_H_
 
+#include "tile.h"
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <SDL2/SDL.h>
-#include "tile.h"
 
 typedef uint32_t dim_t;
 #define dim_sz (sizeof(dim_t))

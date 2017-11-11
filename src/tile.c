@@ -3,6 +3,8 @@
 
 #include "tile.h"
 
+#include <err.h>
+
 SDL_Rect* __pure
 box_to_rect(
 	box_t *box,
