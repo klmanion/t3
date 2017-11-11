@@ -22,8 +22,6 @@ struct _field {
 } field_t;
 #define field_sz (sizeof(field_t))
 
-#define USE_FIELD_DIMS (0)
-
 __BEGIN_DECLS
 field_t*	field_generate __P((dim_t,field_t **));
 field_t*	field_free __P((field_t *));
