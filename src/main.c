@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <getopt.h>
+#include <sysexits.h>
+#include <ctype.h>
 #include <err.h>
 #include <time.h>
 
@@ -20,22 +23,60 @@
 
 #define window_flags SDL_WINDOW_SHOWN
 
+const char *const optstring = "d:";
+
+const struct option longopts[] = {
+	{ "dimensions",	required_argument,	NULL,	'd' },
+	{ NULL, 0, NULL, 0 }
+};
+
 SDL_Window *window = NULL;
 SDL_Renderer *R = NULL;
+
+void	usage(const char *) __dead2;
 
 int
 main(
 	int argc,
 	char *const argv[])
 {
+	extern int opterr, optopt, optind;
+	extern char *optarg;
+	char ch;
+	const char *const basename = argv[0];
 	int debuf, running;
 	SDL_Event e;
 	time_t t0;
 	field_t *field = NULL;
-	
+	dim_t dim;
+
+	opterr = 0;
 	debuf = running = 1;
 	srand((unsigned int)time(&t0));
-	field_generate(4, &field);
+	dim = DEFAULT_DIM;
+
+	while ((ch = getopt_long(argc, argv, optstring, longopts, NULL)) != -1)
+	{
+		switch (ch) {
+		case 'd':
+			dim = (dim_t)abs(atoi(optarg));
+			break;;
+		case '?':
+		default:
+			if (isprint(optopt))
+				warnx("unknown option `-%c'", optopt);
+			else
+				warnx("unknown option code %#x", (unsigned int)optopt);
+			usage(basename);
+		}
+	}
+	argc -= optind;
+	argv += optind;
+
+	if (argc > 0)
+		warnx("extraneous arguments passed to program");
+
+	field_generate(dim, &field);
 
 	/* SDL initiallization */
 	if (SDL_Init(1) < 0)
@@ -86,6 +127,14 @@ main(
 	field = field_free(field);
 
 	return EXIT_SUCCESS;
+}
+
+void __dead2
+usage(
+	const char *basename)
+{
+	fprintf(stderr, "%s [-d dimensions]\n", basename);
+	exit(EX_USAGE);
 }
 
 /* vim: set ts=4 sw=4 noexpandtab tw=79: */
