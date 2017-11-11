@@ -32,7 +32,6 @@ double	field_tile_length __P((field_t *)) __pure2;
 SDL_Renderer*	field_render __P((SDL_Renderer *,field_t *));
 __END_DECLS
 
-
 #endif /* !_FIELD_H_ */
 
 /* vim: set ts=4 sw=4 noexpandtab tw=79: */

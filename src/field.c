@@ -44,8 +44,8 @@ field_generate(
 	double fpx[dim+1][dim+1]; //field points x-coordinates
 
 	h = (FIELD_HEIGHT - (VERT_GAP * (dim - 1))) / dim;
-	s = h / cos(90 - 2 * BOARD_ANGLE);
-	b = s * sin(90 - 2 * BOARD_ANGLE);
+	s = h / cos(M_PI/2 - 2 * BOARD_ANGLE);
+	b = s * sin(M_PI/2 - 2 * BOARD_ANGLE);
 	smp = (WIDTH - (s + b)) / 2;
 	tw = s / dim;
 
