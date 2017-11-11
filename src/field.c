@@ -22,15 +22,6 @@ field_generate(
 	tile_t ***ts = NULL;
 	field_t *f = NULL;
 
-	/*
-	if (dim == USE_FIELD_DIMS) {
-		if (field && *field)
-			dim = (*field)->dim;
-		else
-			errx(1, "No dimensions set");
-	}
-	*/
-
 	f = (field_t *)malloc(field_sz);
 	if (!f) errx(1, "Malloc failure");
 
@@ -46,29 +37,31 @@ field_generate(
 		dim = MAX_DIM;
 	}
 
-	uint32_t fpx[dim+1][dim+1]; //field points x-coordinates
+	double fpx[dim+1][dim+1]; //field points x-coordinates
 
 	a = (FIELD_HEIGHT - (VERT_GAP * (dim - 1))) / dim;
 	b = a / tan(BOARD_ANGLE);
-	fwp = FIELD_WIDTH - b;
-	tw = fwp / dim;
-	smp = (WIDTH - (a + tw * dim)) / 2;
+	th = a / dim;
+	tw = th / tan(BOARD_ANGLE);
+	fwp = tw * dim;
+	smp = (WIDTH - (b + fwp)) / 2;
 
 	for (size_t i=0; i<dim+1; ++i) {
-		double ai = a - (a * ((double)i / (double)dim));
-		for (size_t j=0; j<dim+1; ++j)
-			fpx[i][j] = (uint32_t)floor((smp - tw/2) + ai + tw * j);
+		//double bi = b - (b * ((double)i / (double)dim));
+		double bi = (a * ((double)(dim-i) / (double)dim)) / tan(BOARD_ANGLE);
+		fpx[i][0] = (smp - tw/2) + bi;
+		for (size_t j=1; j<dim+1; ++j)
+			fpx[i][j] = fpx[i][j-1] + tw;
 	}
 
-	uint32_t fpy[dim][dim+1];
+	double fpy[dim][dim+1];
 
-	th = a / dim;
 	tbmp = (HEIGHT - (th * dim * dim + VERT_GAP * (dim-1))) / 2;
 
 	for (size_t i=0; i<dim; ++i) {
-		fpy[i][0] = (uint32_t)floor(tbmp + (a + VERT_GAP) * i);
+		fpy[i][0] = tbmp + (a + VERT_GAP) * i;
 		for (size_t j=1; j<dim+1; ++j)
-			fpy[i][j] = (uint32_t)floor(fpy[i][j-1] + th);
+			fpy[i][j] = fpy[i][j-1] + th;
 	}
 
 	ts = (tile_t ***)malloc(sizeof(tile_t **) * dim); //z-axis
@@ -81,10 +74,10 @@ field_generate(
 			if (!ts[i][j]) errx(1, "Malloc failure");
 			for (size_t k=0; k<dim; ++k) {
 				ts[i][j][k].content = tile_blank;
-				ts[i][j][k].box.x1 = fpx[j][k];
-				ts[i][j][k].box.y1 = fpy[i][j];
-				ts[i][j][k].box.x2 = fpx[j][k+1];
-				ts[i][j][k].box.y2 = fpy[i][j+1];
+				ts[i][j][k].box.x1 = (uint32_t)floor(fpx[j][k]);
+				ts[i][j][k].box.y1 = (uint32_t)floor(fpy[i][j]);
+				ts[i][j][k].box.x2 = (uint32_t)floor(fpx[j][k+1]);
+				ts[i][j][k].box.y2 = (uint32_t)floor(fpy[i][j+1]);
 			}
 		}
 	}
@@ -154,7 +147,7 @@ field_render(
 
 	SDL_SetRenderDrawColor(R, 0xFF, 0xFF, 0xFF, 0xFF);
 
-	//vertical lines
+	//vertical or diagonal lines
 	for (size_t i=0; i<f->dim; ++i)
 		for (size_t j=0; j<f->dim-1; ++j)
 			SDL_RenderDrawLine(R,
