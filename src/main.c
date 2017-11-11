@@ -23,10 +23,11 @@
 
 #define window_flags SDL_WINDOW_SHOWN
 
-const char *const optstring = "d:";
+const char *const optstring = "d:h";
 
 const struct option longopts[] = {
 	{ "dimensions",	required_argument,	NULL,	'd' },
+	{ "help",		no_argument,		NULL,	'h' },
 	{ NULL, 0, NULL, 0 }
 };
 
@@ -61,6 +62,8 @@ main(
 		case 'd':
 			dim = (dim_t)abs(atoi(optarg));
 			break;;
+		case 'h':
+			usage(basename);
 		case '?':
 		default:
 			if (isprint(optopt))

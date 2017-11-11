@@ -12,13 +12,13 @@
 #define HEIGHT	(480)
 
 //these are actually minimum heuristics
-#define SIDE_MARGIN		((double)(WIDTH/8))
-#define TOPBOT_MARGIN	((double)(HEIGHT/8))
+#define SIDE_MARGIN		((double)(WIDTH/16))
+#define TOPBOT_MARGIN	((double)(HEIGHT/16))
 
 #define FIELD_WIDTH		((double)(WIDTH - (2 * SIDE_MARGIN)))
 #define FIELD_HEIGHT	((double)(HEIGHT - (2 * TOPBOT_MARGIN)))
 
-#define BOARD_ANGLE	((double)60)
+#define BOARD_ANGLE	((double)40)
 #define VERT_GAP	((double)10)
 
 #endif /* !_DIMENSIONS_H_ */

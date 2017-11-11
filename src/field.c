@@ -12,14 +12,14 @@ field_generate(
 	dim_t dim,
 	field_t **field)
 {
-	double a,b,fwp,tw,smp,th,tbmp;
+	double h,s,b,smp,tw,tbmp,th;
 	// height of each board
+	// side of the paralellogram
 	// base of the paralellogram's complementary triangle
-	// field width proper
-	// tile width
 	// side margin proper - used for centering
-	// tile height
+	// tile width
 	// top-bot margin proper
+	// tile height
 	tile_t ***ts = NULL;
 	field_t *f = NULL;
 
@@ -40,26 +40,26 @@ field_generate(
 
 	double fpx[dim+1][dim+1]; //field points x-coordinates
 
-	a = (FIELD_HEIGHT - (VERT_GAP * (dim - 1))) / dim;
-	b = a / tan(BOARD_ANGLE);
-	th = a / dim;
-	tw = th / tan(BOARD_ANGLE);
-	fwp = tw * dim;
-	smp = (WIDTH - (b + fwp)) / 2;
+	h = (FIELD_HEIGHT - (VERT_GAP * (dim - 1))) / dim;
+	s = h / cos(90 - 2 * BOARD_ANGLE);
+	b = s * sin(90 - 2 * BOARD_ANGLE);
+	smp = (WIDTH - (s + b)) / 2;
+	tw = s / dim;
 
 	for (size_t i=0; i<dim+1; ++i) {
-		double bi = (a * ((double)(dim-i) / (double)dim)) / tan(BOARD_ANGLE);
-		fpx[i][0] = (smp - tw/2) + bi;
+		double bi = b * ((double)(dim-i) / (double)dim);
+		fpx[i][0] = (smp) + bi;
 		for (size_t j=1; j<dim+1; ++j)
 			fpx[i][j] = fpx[i][j-1] + tw;
 	}
 
 	double fpy[dim][dim+1]; //field points y-coordinates
 
-	tbmp = (HEIGHT - (th * dim * dim + VERT_GAP * (dim-1))) / 2;
+	tbmp = (HEIGHT - (h * dim + VERT_GAP * (dim-1))) / 2;
+	th = h / dim;
 
 	for (size_t i=0; i<dim; ++i) {
-		fpy[i][0] = tbmp + (a + VERT_GAP) * i;
+		fpy[i][0] = tbmp + (h + VERT_GAP) * i;
 		for (size_t j=1; j<dim+1; ++j)
 			fpy[i][j] = fpy[i][j-1] + th;
 	}
@@ -84,8 +84,8 @@ field_generate(
 
 	f->tileset = ts;
 	f->dim = dim;
-	f->tile_width = tw;
-	f->tile_height = th;
+	f->height = h;
+	f->side_len = s;
 	return f;
 }
 
@@ -105,6 +105,20 @@ field_free(
 		free(f);
 	}
 	return f = NULL;
+}
+
+double __pure2
+field_tile_height(
+	field_t *f)
+{
+	return f->height / f->dim;
+}
+
+double __pure2
+field_tile_length(
+	field_t *f)
+{
+	return f->side_len / f->dim;
 }
 
 SDL_Renderer*
