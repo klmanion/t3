@@ -11,7 +11,7 @@
 #define WIDTH	(640)
 #define HEIGHT	(480)
 
-//these are actually the minimums
+//these are actually minimum heuristics
 #define SIDE_MARGIN		((double)(WIDTH/8))
 #define TOPBOT_MARGIN	((double)(HEIGHT/8))
 
