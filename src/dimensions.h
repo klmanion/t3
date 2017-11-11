@@ -20,7 +20,7 @@
 #define FIELD_WIDTH		((double)(WIDTH - (2 * SIDE_MARGIN)))
 #define FIELD_HEIGHT	((double)(HEIGHT - (2 * TOPBOT_MARGIN)))
 
-#define BOARD_ANGLE	(M_PI / 3)
+#define BOARD_ANGLE	(M_PI / 6)
 #define VERT_GAP	((double)10)
 
 #endif /* !_DIMENSIONS_H_ */
