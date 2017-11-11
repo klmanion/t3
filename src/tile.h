@@ -35,3 +35,5 @@ SDL_Rect*	tile_to_rect __P((tile_t *,SDL_Rect *)) __pure;
 __END_DECLS
 
 #endif /* !_TILE_H_ */
+
+/* vim: set ts=4 sw=4 noexpandtab tw=79: */

@@ -31,3 +31,5 @@ tile_to_rect(
 {
 	return box_to_rect(&tile->box, rect);
 }
+
+/* vim: set ts=4 sw=4 noexpandtab tw=79: */
