@@ -6,6 +6,7 @@
 
 #define MIN_DIM	((dim_t)2)
 #define MAX_DIM ((dim_t)9)
+#define DEFAULT_DIM ((dim_t)4)
 
 #define WIDTH	(640)
 #define HEIGHT	(480)
@@ -21,3 +22,5 @@
 #define VERT_GAP	((double)10)
 
 #endif /* !_DIMENSIONS_H_ */
+
+/* vim: set ts=4 sw=4 noexpandtab tw=79: */

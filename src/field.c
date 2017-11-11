@@ -170,3 +170,5 @@ field_render(
 	
 	return R;
 }
+
+/* vim: set ts=4 sw=4 noexpandtab tw=79: */

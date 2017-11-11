@@ -56,3 +56,5 @@ __END_DECLS
 
 
 #endif /* !_FIELD_H_ */
+
+/* vim: set ts=4 sw=4 noexpandtab tw=79: */
