@@ -40,16 +40,17 @@ main(
 	int argc,
 	char *const argv[])
 {
-	extern int optind;
+	extern int opterr, optopt, optind;
 	extern char *optarg;
 	char ch;
-	const char *basename = argv[0];
+	const char *const basename = argv[0];
 	int debuf, running;
 	SDL_Event e;
 	time_t t0;
 	field_t *field = NULL;
 	dim_t dim;
 
+	opterr = 0;
 	debuf = running = 1;
 	srand((unsigned int)time(&t0));
 	dim = DEFAULT_DIM;
@@ -62,10 +63,10 @@ main(
 			break;;
 		case '?':
 		default:
-			if (isprint(ch))
-				warnx("unknown option `-%c'\n", ch);
+			if (isprint(optopt))
+				warnx("unknown option `-%c'", optopt);
 			else
-				warnx("unknown option code %#x\n", (unsigned int)ch);
+				warnx("unknown option code %#x", (unsigned int)optopt);
 			usage(basename);
 		}
 	}
