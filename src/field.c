@@ -48,7 +48,6 @@ field_generate(
 	smp = (WIDTH - (b + fwp)) / 2;
 
 	for (size_t i=0; i<dim+1; ++i) {
-		//double bi = b - (b * ((double)i / (double)dim));
 		double bi = (a * ((double)(dim-i) / (double)dim)) / tan(BOARD_ANGLE);
 		fpx[i][0] = (smp - tw/2) + bi;
 		for (size_t j=1; j<dim+1; ++j)
