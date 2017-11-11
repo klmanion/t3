@@ -23,7 +23,7 @@ struct _box {
 } box_t;
 
 typedef
-struct _tile_t {
+struct _tile {
 	mark_t content;
 	box_t box;
 } tile_t;
