@@ -7,6 +7,9 @@
 #include <math.h>
 #include "dimensions.h"
 
+//FIXME
+#include <stdio.h>
+
 field_t*
 field_generate(
 	dim_t dim,
@@ -46,9 +49,11 @@ field_generate(
 	smp = (WIDTH - (s + b)) / 2;
 	tw = s / dim;
 
+	printf("h:%f s:%f b:%f smp:%f tw:%f\n", h, s, b, smp, tw);
+
 	for (size_t i=0; i<dim+1; ++i) {
 		double bi = b * ((double)(dim-i) / (double)dim);
-		fpx[i][0] = (smp) + bi;
+		fpx[i][0] = (smp - tw/2) + bi;
 		for (size_t j=1; j<dim+1; ++j)
 			fpx[i][j] = fpx[i][j-1] + tw;
 	}
