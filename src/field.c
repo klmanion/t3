@@ -15,14 +15,14 @@ field_generate(
 	dim_t dim,
 	field_t **field)
 {
-	double h,s,b,smp,tw,tbmp,th;
+	double h,s,b,smp,tw,th,tbmp;
 	// height of each board
 	// side of the paralellogram
 	// base of the paralellogram's complementary triangle
 	// side margin proper - used for centering
 	// tile width
-	// top-bot margin proper
 	// tile height
+	// top-bot margin proper
 	tile_t ***ts = NULL;
 	field_t *f = NULL;
 
@@ -60,11 +60,11 @@ field_generate(
 
 	double fpy[dim][dim+1]; //field points y-coordinates
 
-	tbmp = (HEIGHT - (h * dim + VERT_GAP * (dim-1))) / 2;
 	th = tw * tan(BOARD_ANGLE);
+	tbmp = (HEIGHT - (th * dim * dim + VERT_GAP * (dim-1))) / 2;
 
 	for (size_t i=0; i<dim; ++i) {
-		fpy[i][0] = tbmp + (h + VERT_GAP) * i;
+		fpy[i][0] = tbmp + (th * dim + VERT_GAP) * i;
 		for (size_t j=1; j<dim+1; ++j)
 			fpy[i][j] = fpy[i][j-1] + th;
 	}
