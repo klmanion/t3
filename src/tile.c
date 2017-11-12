@@ -4,34 +4,33 @@
 #include "tile.h"
 
 #include <err.h>
+#include <math.h>
 
-SDL_Rect* __pure
-box_to_rect(
-	box_t *box,
-	SDL_Rect *rect)
+pt_t* __pure
+set_pt(
+	pt_t *const pt,
+	uint32_t x,
+	uint32_t y)
 {
-	if (!box) {
-		warnx("uninitiallized box passed to box_to_rect: %s, %d",
+	if (!pt)
+		errx(1, "unallocated pt_t * sent to set_pt: %s, %d",
 			__FILE__, __LINE__);
-		return NULL;
-	}
 
-	if (!rect)
-		rect = (SDL_Rect *)malloc(sizeof(SDL_Rect));
+	pt->x = x;
+	pt->y = y;
 
-	rect->x = box->x1;
-	rect->y = box->y1;
-	rect->w = rect->h = box->x2 - box->x1;
-
-	return rect;
+	return pt;
 }
 
-SDL_Rect* __pure
-tile_to_rect(
-	tile_t *tile,
-	SDL_Rect *rect)
+/* set tile's content to blank
+ * used by field_clear() */
+tile_t* __pure
+tile_clear(
+	tile_t *const t)
 {
-	return box_to_rect(&tile->box, rect);
+	if (t)
+		t->content = tile_blank;
+	return t;
 }
 
 /* vim: set ts=4 sw=4 noexpandtab tw=79: */
