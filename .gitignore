@@ -1,6 +1,7 @@
 # .gitignore
 
 *.swp
+.deps
 
 # automake
 Makefile.in
@@ -10,9 +11,11 @@ Makefile
 /autom4te.cache
 /aclocal.m4
 /compile
+/config/**
+!/config/install-sh
 /config.*
 /configure
-/configure.*
+/configure.in
 /depcomp
 /install-sh
 /missing
@@ -20,4 +23,3 @@ Makefile
 
 # m4
 autom4te.cache
-
