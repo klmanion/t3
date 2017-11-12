@@ -4,16 +4,27 @@
 #include "tile.h"
 
 #include <err.h>
+#include <math.h>
+
+/* set tile's content to blank
+ * used by field_clear() */
+tile_t* __pure
+tile_clear(
+	tile_t *const t)
+{
+	if (t)
+		t->content = tile_blank;
+	return t;
+}
 
 SDL_Rect* __pure
 box_to_rect(
-	box_t *box,
+	const box_t *const box,
 	SDL_Rect *rect)
 {
 	if (!box) {
-		warnx("uninitiallized box passed to box_to_rect: %s, %d",
+		errx(1, "uninitiallized box passed to box_to_rect: %s, %d",
 			__FILE__, __LINE__);
-		return NULL;
 	}
 
 	if (!rect)
@@ -21,14 +32,16 @@ box_to_rect(
 
 	rect->x = box->x1;
 	rect->y = box->y1;
-	rect->w = rect->h = box->x2 - box->x1;
+	rect->w = rect->h = box->x2 - box->x1; 
+	//x2 will always be greater than x1,
+	//thus it is unnecessary to take the absolute value
 
 	return rect;
 }
 
 SDL_Rect* __pure
 tile_to_rect(
-	tile_t *tile,
+	const tile_t *const tile,
 	SDL_Rect *rect)
 {
 	return box_to_rect(&tile->box, rect);

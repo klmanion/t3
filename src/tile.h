@@ -30,8 +30,10 @@ struct _tile {
 #define tile_sz (sizeof(tile_t))
 
 __BEGIN_DECLS
-SDL_Rect*	box_to_rect __P((box_t *,SDL_Rect *)) __pure;
-SDL_Rect*	tile_to_rect __P((tile_t *,SDL_Rect *)) __pure;
+tile_t*	tile_clear __P((tile_t *const)) __pure;
+
+SDL_Rect*	box_to_rect __P((const box_t *const,SDL_Rect *)) __pure;
+SDL_Rect*	tile_to_rect __P((const tile_t *const,SDL_Rect *)) __pure;
 __END_DECLS
 
 #endif /* !_TILE_H_ */

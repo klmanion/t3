@@ -26,10 +26,12 @@ __BEGIN_DECLS
 field_t*	field_generate __P((dim_t,field_t **));
 field_t*	field_free __P((field_t *));
 
-double	field_tile_height __P((field_t *)) __pure2;
-double	field_tile_length __P((field_t *)) __pure2;
+field_t*	field_clear __P((field_t *const)) __pure;
 
-SDL_Renderer*	field_render __P((SDL_Renderer *,field_t *));
+double	field_tile_height __P((const field_t *const)) __pure2;
+double	field_tile_length __P((const field_t *const)) __pure2;
+
+SDL_Renderer*	field_render __P((SDL_Renderer *const,const field_t *const)) __pure;
 __END_DECLS
 
 #endif /* !_FIELD_H_ */

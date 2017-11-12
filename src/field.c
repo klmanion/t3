@@ -10,18 +10,40 @@
 //FIXME
 #include <stdio.h>
 
+/* used by field_generate() to keep the dimensions in a sane range */
+static dim_t
+sanitize_dim(
+	dim_t *dim)
+{
+	if (!dim)
+		errx(1, "unallocated dim_t * sent to sanitize_dim: %s, %d",
+			__FILE__, __LINE__);
+
+	if (*dim < MIN_DIM) {
+		warnx("Dimensions raised to minimum");
+		*dim = MIN_DIM;
+	}
+
+	if (*dim > MAX_DIM) {
+		warnx("Dimensions floored to maximum");
+		*dim = MAX_DIM;
+	}
+
+	return *dim;
+}
+
 field_t*
 field_generate(
 	dim_t dim,
 	field_t **field)
 {
-	double h,s,b,smp,tw,th,tbmp;
+	double h,th,tw,s,b,smp,tbmp;
 	// height of each board
-	// side of the paralellogram
+	// tile height
+	// tile width
+	// both sides of the (square) paralellogram
 	// base of the paralellogram's complementary triangle
 	// side margin proper - used for centering
-	// tile width
-	// tile height
 	// top-bot margin proper
 	tile_t ***ts = NULL;
 	field_t *f = NULL;
@@ -32,14 +54,7 @@ field_generate(
 	if (field)
 		*field = f;
 
-	if (dim < MIN_DIM) {
-		warnx("Dimensions raised to minimum");
-		dim = MIN_DIM;
-	}
-	if (dim > MAX_DIM) {
-		warnx("Dimensions floored to maximum");
-		dim = MAX_DIM;
-	}
+	sanitize_dim(&dim);
 
 	double fpx[dim+1][dim+1]; //field points x-coordinates
 
@@ -51,10 +66,14 @@ field_generate(
 	smp = (WIDTH - (s + b)) / 2;
 
 	for (size_t i=0; i<dim+1; ++i) {
+		printf("--->i=%zu\n", i);
 		double bi = b * ((double)(dim+1-i) / (double)(dim+1));
 		fpx[i][0] = (smp - tw/2) + bi;
-		for (size_t j=1; j<dim+1; ++j)
+		printf("%f\n", fpx[i][0]);
+		for (size_t j=1; j<dim+1; ++j) {
 			fpx[i][j] = fpx[i][j-1] + tw;
+			printf("%f\n", fpx[i][j]);
+		}
 	}
 
 	double fpy[dim][dim+1]; //field points y-coordinates
@@ -77,10 +96,10 @@ field_generate(
 			if (!ts[i][j]) errx(1, "Malloc failure");
 			for (size_t k=0; k<dim; ++k) {
 				ts[i][j][k].content = tile_blank;
-				ts[i][j][k].box.x1 = (uint32_t)floor(fpx[j][k]);
-				ts[i][j][k].box.y1 = (uint32_t)floor(fpy[i][j]);
-				ts[i][j][k].box.x2 = (uint32_t)floor(fpx[j][k+1]);
-				ts[i][j][k].box.y2 = (uint32_t)floor(fpy[i][j+1]);
+				ts[i][j][k].box.x1 = (uint32_t)lround(fpx[j][k]);
+				ts[i][j][k].box.y1 = (uint32_t)lround(fpy[i][j]);
+				ts[i][j][k].box.x2 = (uint32_t)lround(fpx[j][k+1]);
+				ts[i][j][k].box.y2 = (uint32_t)lround(fpy[i][j+1]);
 			}
 		}
 	}
@@ -110,24 +129,40 @@ field_free(
 	return f = NULL;
 }
 
+field_t* __pure
+field_clear(
+	field_t *const f)
+{
+	if (!f)
+		errx(1, "unallocated field_t sent to field_clear: %s, %d",
+			__FILE__, __LINE__);
+
+	for (size_t i=0; i<f->dim; ++i)
+		for (size_t j=0; j<f->dim; ++j)
+			for (size_t k=0; k<f->dim; ++k)
+				tile_clear(&f->tileset[i][j][k]);
+
+	return f;
+}
+
 double __pure2
 field_tile_height(
-	field_t *f)
+	const field_t *const f)
 {
 	return f->height / f->dim;
 }
 
 double __pure2
 field_tile_length(
-	field_t *f)
+	const field_t *const f)
 {
 	return f->side_len / f->dim;
 }
 
-SDL_Renderer*
+SDL_Renderer* __pure
 field_render(
-	SDL_Renderer *R,
-	field_t *f)
+	SDL_Renderer *const R,
+	const field_t *const f)
 {
 	tile_t ***ts = NULL;
 
@@ -148,6 +183,14 @@ field_render(
 			SDL_RenderDrawLine(R,
 				ts[i][j][0].box.x1,	ts[i][j][0].box.y2,
 				ts[i][j][f->dim-1].box.x2,	ts[i][j][f->dim-1].box.y2);
+
+	//FIXME: DEBUG
+	SDL_SetRenderDrawColor(R, 0xFF, 0x0, 0x0, 0xFF);
+	for (size_t i=0; i<f->dim; ++i) {
+		SDL_RenderDrawLine(R,
+			ts[i][0][0].box.x1,	ts[i][0][0].box.y1,
+			ts[i][f->dim-1][0].box.x1,	ts[i][f->dim-1][0].box.y2);
+	}
 	
 	return R;
 }
