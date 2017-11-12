@@ -7,9 +7,6 @@
 #include <math.h>
 #include "dimensions.h"
 
-//FIXME
-#include <stdio.h>
-
 /* used by field_generate() to keep the dimensions in a sane range */
 static dim_t
 sanitize_dim(
@@ -66,19 +63,14 @@ field_generate(
 	smp = (WIDTH - (s + b)) / 2;
 
 	for (size_t i=0; i<dim+1; ++i) {
-		printf("--->i=%zu\n", i);
 		// With n increments, at increment i the length will be
 		// i/(n-1), where i is zero-indexed.
 		// Here, n=dim+1.
 		double si = s * ((double)(dim-i) / (double)(dim));
 		double bi = si * sin(M_PI_2 - 2 * BOARD_ANGLE);
-		printf("bi:%f\n", bi);
 		fpx[i][0] = (smp - tw/2) + bi;
-		printf("%f\n", fpx[i][0]);
-		for (size_t j=1; j<dim+1; ++j) {
+		for (size_t j=1; j<dim+1; ++j)
 			fpx[i][j] = fpx[i][j-1] + tw;
-			printf("%f\n", fpx[i][j]);
-		}
 	}
 
 	double fpy[dim][dim+1]; //field points y-coordinates
