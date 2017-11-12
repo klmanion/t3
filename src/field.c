@@ -50,8 +50,6 @@ field_generate(
 	b = s * sin(M_PI_2 - 2 * BOARD_ANGLE);
 	smp = (WIDTH - (s + b)) / 2;
 
-	printf("h:%f s:%f b:%f smp:%f tw:%f\n", h, s, b, smp, tw);
-
 	for (size_t i=0; i<dim+1; ++i) {
 		double bi = b * ((double)(dim+1-i) / (double)(dim+1));
 		fpx[i][0] = (smp - tw/2) + bi;
