@@ -67,7 +67,8 @@ field_generate(
 
 	for (size_t i=0; i<dim+1; ++i) {
 		printf("--->i=%zu\n", i);
-		double bi = b * ((double)(dim+1-i) / (double)(dim+1));
+		double hi = h * ((double)(dim+1-i) / (double)(dim+1));
+		double bi = hi * tan(M_PI_2 - 2 * BOARD_ANGLE);
 		fpx[i][0] = (smp - tw/2) + bi;
 		printf("%f\n", fpx[i][0]);
 		for (size_t j=1; j<dim+1; ++j) {
