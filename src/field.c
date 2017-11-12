@@ -67,8 +67,12 @@ field_generate(
 
 	for (size_t i=0; i<dim+1; ++i) {
 		printf("--->i=%zu\n", i);
-		double hi = h * ((double)(dim+1-i) / (double)(dim+1));
-		double bi = hi * tan(M_PI_2 - 2 * BOARD_ANGLE);
+		// With n increments, at increment i the length will be
+		// i/(n-1), where i is zero-indexed.
+		// Here, n=dim+1.
+		double si = s * ((double)(dim-i) / (double)(dim));
+		double bi = si * sin(M_PI_2 - 2 * BOARD_ANGLE);
+		printf("bi:%f\n", bi);
 		fpx[i][0] = (smp - tw/2) + bi;
 		printf("%f\n", fpx[i][0]);
 		for (size_t j=1; j<dim+1; ++j) {
@@ -96,11 +100,12 @@ field_generate(
 			ts[i][j] = (tile_t *)malloc(tile_sz * dim); //x-axis
 			if (!ts[i][j]) errx(1, "Malloc failure");
 			for (size_t k=0; k<dim; ++k) {
-				ts[i][j][k].content = tile_blank;
-				ts[i][j][k].box.x1 = (uint32_t)lround(fpx[j][k]);
-				ts[i][j][k].box.y1 = (uint32_t)lround(fpy[i][j]);
-				ts[i][j][k].box.x2 = (uint32_t)lround(fpx[j][k+1]);
-				ts[i][j][k].box.y2 = (uint32_t)lround(fpy[i][j+1]);
+				tile_t *t = &ts[i][j][k];
+				t->content = tile_blank;
+				set_pt(&t->perim.tl,	fpx[j][k],		fpy[i][j]);
+				set_pt(&t->perim.tr,	fpx[j][k+1],	fpy[i][j]);
+				set_pt(&t->perim.bl,	fpx[j+1][k],	fpy[i][j+1]);
+				set_pt(&t->perim.br,	fpx[j+1][k+1],	fpy[i][j+1]);
 			}
 		}
 	}
@@ -175,24 +180,42 @@ field_render(
 	for (size_t i=0; i<f->dim; ++i)
 		for (size_t j=0; j<f->dim-1; ++j)
 			SDL_RenderDrawLine(R,
-				ts[i][0][j].box.x2,	ts[i][0][j].box.y1,
-				ts[i][f->dim-1][j].box.x2,	ts[i][f->dim-1][j].box.y2);
+				ts[i][0][j].perim.tr.x,
+				ts[i][0][j].perim.tr.y,
+				ts[i][f->dim-1][j].perim.br.x,
+				ts[i][f->dim-1][j].perim.br.y);
 
 	//horizontal lines
 	for (size_t i=0; i<f->dim; ++i)
 		for (size_t j=0; j<f->dim-1; ++j)
 			SDL_RenderDrawLine(R,
-				ts[i][j][0].box.x1,	ts[i][j][0].box.y2,
-				ts[i][j][f->dim-1].box.x2,	ts[i][j][f->dim-1].box.y2);
-
-	//FIXME: DEBUG
+				ts[i][j][0].perim.bl.x,
+				ts[i][j][0].perim.bl.y,
+				ts[i][j][f->dim-1].perim.br.x,
+				ts[i][j][f->dim-1].perim.br.y);
+/*
+	//DEBUG: redline
 	SDL_SetRenderDrawColor(R, 0xFF, 0x0, 0x0, 0xFF);
 	for (size_t i=0; i<f->dim; ++i) {
 		SDL_RenderDrawLine(R,
-			ts[i][0][0].box.x1,	ts[i][0][0].box.y1,
-			ts[i][f->dim-1][0].box.x1,	ts[i][f->dim-1][0].box.y2);
+			ts[i][0][0].perim.tl.x,
+			ts[i][0][0].perim.tl.y,
+			ts[i][f->dim-1][0].perim.bl.x,
+			ts[i][f->dim-1][0].perim.bl.y);
 	}
-	
+
+	//DEBUG: blueline
+	SDL_SetRenderDrawColor(R, 0x00, 0x00, 0xFF, 0xFF);
+	for (size_t i=0; i<f->dim; ++i) {
+		for (size_t j=0; j<f->dim; ++j) {
+			SDL_RenderDrawLine(R,
+				ts[i][j][0].perim.tl.x,
+				ts[i][j][0].perim.tl.y,
+				ts[i][j][0].perim.bl.x,
+				ts[i][j][0].perim.bl.y);
+		}
+	}
+*/
 	return R;
 }
 
