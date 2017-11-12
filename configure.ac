@@ -1,7 +1,7 @@
 ## configure.ac
 
 AC_PREREQ([2.69]) dnl could propbable be lower
-AC_INIT([t3], [0.1], [klmanion@gmail.com])
+AC_INIT([t3], [0.2], [klmanion@gmail.com])
 AC_CONFIG_AUX_DIR([config])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
