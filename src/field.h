@@ -4,14 +4,12 @@
 #ifndef _FIELD_H_
 #define _FIELD_H_
 
-#include "tile.h"
-
 #include <stdlib.h>
 #include <stdint.h>
 #include <SDL2/SDL.h>
 
-typedef uint32_t dim_t;
-#define dim_sz (sizeof(dim_t))
+#include "tile.h"
+#include "defs.h"
 
 typedef
 struct _field {
