@@ -8,18 +8,15 @@
 #include <stdint.h>
 #include <SDL2/SDL.h>
 
+#include "defs.h"
+
 typedef
 enum __attribute__((packed)) _mark {
 	tile_blank = 0,
 	tile_x,
 	tile_o
 } mark_t;
-
-typedef
-struct _pt {
-	uint32_t	x;
-	uint32_t	y;
-} pt_t;
+#define mark_sz (sizeof(mark_t))
 
 typedef
 struct _parallelogram {
@@ -28,6 +25,7 @@ struct _parallelogram {
 	pt_t	bl;
 	pt_t	br;
 } parl_t;
+#define parl_sz (sizeof(parl_t))
 
 typedef
 struct _tile {
@@ -37,9 +35,13 @@ struct _tile {
 #define tile_sz (sizeof(tile_t))
 
 __BEGIN_DECLS
-pt_t*	set_pt __P((pt_t *const,uint32_t,uint32_t)) __pure;
+double	tile_tilewidth __P((tile_t *t)) __pure;
+double	tile_tileheight __P((tile_t *t)) __pure;
 
 tile_t*	tile_clear __P((tile_t *const)) __pure;
+
+SDL_Renderer*	tile_render_contents __P((SDL_Renderer *,tile_t *)) __pure;
+SDL_Renderer*	tileset_render_contents __P((SDL_Renderer *,tile_t ***,dim_t)) __pure;
 __END_DECLS
 
 #endif /* !_TILE_H_ */

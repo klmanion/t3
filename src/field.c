@@ -93,7 +93,8 @@ field_generate(
 			if (!ts[i][j]) errx(1, "Malloc failure");
 			for (size_t k=0; k<dim; ++k) {
 				tile_t *t = &ts[i][j][k];
-				t->content = tile_blank;
+				//t->content = tile_blank;
+				t->content = tile_x; //FIXME
 				set_pt(&t->perim.tl,	fpx[j][k],		fpy[i][j]);
 				set_pt(&t->perim.tr,	fpx[j][k+1],	fpy[i][j]);
 				set_pt(&t->perim.bl,	fpx[j+1][k],	fpy[i][j+1]);
@@ -208,6 +209,10 @@ field_render(
 		}
 	}
 */
+
+	//tile contents
+	tileset_render_contents(R, ts, f->dim);
+
 	return R;
 }
 
