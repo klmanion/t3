@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include <err.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include <SDL2/SDL.h>
 
@@ -45,14 +46,14 @@ main(
 	extern char *optarg;
 	char ch;
 	const char *const basename = argv[0];
-	int debuf, running;
+	bool debuf, running;
 	SDL_Event e;
 	time_t t0;
 	field_t *field = NULL;
 	dim_t dim;
 
 	opterr = 0;
-	debuf = running = 1;
+	debuf = running = true;
 	srand((unsigned int)time(&t0));
 	dim = DEFAULT_DIM;
 
@@ -90,6 +91,9 @@ main(
 	//ser texture filling to linear
 	if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
 		warnx("Linear texture filtering not enabled!");
+
+	if (!SDL_RenderSetLogicalSize(R, WIDTH, HEIGHT))
+		warnx("failed to set renderer's logical size");
 
 	if (SDL_CWAR(WIDTH, HEIGHT, window_flags, &window, &R)!=0)
 		SDL_die();
