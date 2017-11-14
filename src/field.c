@@ -93,8 +93,7 @@ field_generate(
 			if (!ts[i][j]) errx(1, "Malloc failure");
 			for (size_t k=0; k<dim; ++k) {
 				tile_t *t = &ts[i][j][k];
-				//t->content = tile_blank;
-				t->content = tile_x; //FIXME
+				t->content = tile_blank;
 				set_pt(&t->perim.tl,	fpx[j][k],		fpy[i][j]);
 				set_pt(&t->perim.tr,	fpx[j][k+1],	fpy[i][j]);
 				set_pt(&t->perim.bl,	fpx[j+1][k],	fpy[i][j+1]);
@@ -107,6 +106,7 @@ field_generate(
 	f->dim = dim;
 	f->height = h;
 	f->side_len = s;
+	f->theta = BOARD_ANGLE;
 	return f;
 }
 
@@ -152,10 +152,24 @@ field_tile_height(
 }
 
 double __pure2
-field_tile_length(
+field_tile_width(
 	const field_t *const f)
 {
 	return f->side_len / f->dim;
+}
+
+double __pure2
+field_diameter(
+	const field_t *const f)
+{
+	return f->side_len / cos(f->theta);
+}
+
+double __pure2
+field_tile_diameter(
+	const field_t *const f)
+{
+	return field_tile_width(f) / cos(f->theta);
 }
 
 SDL_Renderer* __pure
@@ -211,7 +225,7 @@ field_render(
 */
 
 	//tile contents
-	tileset_render_contents(R, ts, f->dim);
+	tileset_render_contents(R, ts, f->theta, f->dim);
 
 	return R;
 }
