@@ -66,14 +66,66 @@ tile_render_x(
 	return R;
 }
 
+#include <stdio.h>
 static SDL_Renderer* __pure
 tile_render_o(
 	SDL_Renderer *R,
-	tile_t *t,
-	double theta)
+	tile_t *t)
 {
-	/* FIXME */
-	
+	double tw,th,A,B;
+	uint32_t cuts,h,k;
+	parl_t *p;
+	pt_t *tl,*tr,*br,*bl;
+	//tile width and height
+	//major and minor axii
+	//cuts for one quadrant of the ellipse
+	//x and y translations
+
+	p = &t->perim;
+
+	tw = tile_sidelen(t);
+	th = tile_height(t);
+
+	A = tw/4; //A controls width
+	B = th/4;
+
+	cuts = floor(A);
+
+	pt_t circum[cuts*4+1];
+	tl = &circum[0];
+	tr = &circum[cuts];
+	br = &circum[cuts*2];
+	bl = &circum[cuts*3];
+
+	h = lround((p->bl.x + (p->tl.x - p->bl.x)/2) + tw/2);
+	k = lround(p->tl.y + th/2);
+
+	for (int32_t x=0; x<=cuts; ++x) {
+		int32_t y = lround(sqrt(pow(B,2) * (1 - pow(x,2)/pow(A,2))));
+		printf("%d,%d\n", x, y);
+		set_pt(&tl[cuts-x],	h-x,	k-y);
+		set_pt(&tr[x],		h+x,	k-y);
+		set_pt(&br[cuts-x],	h+x,	k+y);
+		set_pt(&bl[x],		h-x,	k+y);
+	}
+
+	printf("for tile %#x\n", (unsigned int)t);
+	printf("cuts=%d\n", cuts);
+	printf("array length: %zu\n", sizeof(circum)/sizeof(circum[0]));
+	for (size_t i=0; i<=cuts*4; ++i)
+		printf("%zu: %d,%d\n", i, circum[i].x, circum[i].y);
+
+	//SDL_SetRenderDrawColor(R, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(R, 0xFF, 0x0, 0x0, 0xFF);
+
+	for (size_t i=0; i<cuts*4; ++i)
+		SDL_RenderDrawLine(R,
+			circum[i].x,	circum[i].y,
+			circum[i+1].x,	circum[i+1].y);
+	SDL_RenderDrawLine(R,
+		circum[cuts*4].x,	circum[cuts*4].y,
+		circum[0].x,		circum[0].y);
+
 	return R;
 }
 
@@ -90,7 +142,7 @@ tile_render_contents(
 	case tile_x:
 		return tile_render_x(R, t, theta);
 	case tile_o:
-		return tile_render_o(R, t, theta);
+		return tile_render_o(R, t);
 	default:
 		warnx("attempted to render a tile with undefined contents");
 		return R;
