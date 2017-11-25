@@ -91,7 +91,7 @@ tile_render_o(
 
 	cuts = floor(A);
 
-	pt_t circum[cuts*4+1];
+	pt_t circum[cuts*4];
 	tl = &circum[0];
 	tr = &circum[cuts];
 	br = &circum[cuts*2];
