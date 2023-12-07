@@ -16,6 +16,10 @@ PKG_CHECK_MODULES([SDL], [sdl2 >= 2.0.0],
 		  [CFLAGS="$CFLAGS $SDL_CFLAGS" LIBS="$LIBS $SDL_LIBS"],
 		  AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
+AC_CHECK_LIB([m], sin,
+	     [LIBS="$LIBS -lm"],
+	     [AC_MSG_ERROR([could not find math])])
+
 C_CHECK_INCLUDES_DEFAULT
 AC_PROG_EGREP
 
