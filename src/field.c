@@ -173,7 +173,7 @@ field_tile_diameter(
 	return field_tile_width(f) / cos(f->theta);
 }
 
-SDL_Renderer* __pure
+SDL_Renderer*
 field_render(
 	SDL_Renderer *const R,
 	const field_t *const f)
