@@ -157,7 +157,7 @@ field_tile_length(
 	return f->side_len / f->dim;
 }
 
-SDL_Renderer* __pure
+SDL_Renderer*
 field_render(
 	SDL_Renderer *const R,
 	const field_t *const f)
