@@ -220,61 +220,34 @@ bool
 field_checkwin(
 	field_t *const	f)
 {
-	tile_t ***ts = f->tileset;
-	bool win;
-
 	for (size_t i=0; i<f->dim; ++i)	/* z-grid */
 		{
-			/* check horizontal */
-			for (size_t j=0; j<f->dim; ++j) /* y-axis */
+			for (size_t j=0; j<f->dim; ++j)	/* y-axis */
 				{
-					if (ts[i][j][0].content != tile_blank)
-						{
-							win = true;
-							for (size_t k=1; k<f->dim; ++k) /* x-axis */
-								{
-									if (ts[i][j][k].content != ts[i][j][0].content)
-										{
-											win = false;
-											break;
-										}
-								}
-
-							if (win)
-								{
-									for (size_t k=0; k<f->dim; ++k)
-										ts[i][j][k].is_win = true;
-								}
-						}
+					if (check_line(f->tileset, 0,j,i, 1,0,0, f->dim))
+						return true;
 				}
 
-			/* check vertical */
-			for (size_t j=0; j<f->dim; ++j)	/* x-axis */
+			for (size_t j=0; j<f->dim; ++j)
 				{
-					if (ts[i][0][j].content != tile_blank)
-						{
-							win = true;
-							for (size_t k=1; k<f->dim; ++k)	/* y-axis */
-								{
-									if (ts[i][k][j].content != ts[i][0][j].content)
-										{
-											win = false;
-											break;
-										}
-								}
-
-							if (win)
-								{
-									for (size_t k=0; k<f->dim; ++k)
-										ts[i][k][j].is_win = true;
-								}
-						}
+					if (check_line(f->tileset, j,0,i, 0,1,0, f->dim))
+						return true;
 				}
 		}
 
-	/* diagonal win conditions */
+	if (check_line(f->tileset, 0,0,0, 1,1,1, f->dim))
+		return true;
 
-	return win;
+	if (check_line(f->tileset, f->dim-1,0,0, -1,1,1, f->dim))
+		return true;
+
+	if (check_line(f->tileset, 0,f->dim-1,0, 1,-1,1, f->dim))
+		return true;
+
+	if (check_line(f->tileset, f->dim-1,f->dim-1,0, -1,-1,1, f->dim))
+		return true;
+
+	return false;
 }
 
 tile_t*
