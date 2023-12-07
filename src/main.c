@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include <err.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include <SDL2/SDL.h>
 
@@ -45,14 +46,18 @@ main(
 	extern char *optarg;
 	char ch;
 	const char *const basename = argv[0];
-	int debuf, running;
+	bool debuf, running;
 	SDL_Event e;
+	int my,mx;	/* mouse x and y */
+	tile_t *clicked = (tile_t *)NULL;
+	int turn;	/* 1 is x */
+	bool gameover;
 	time_t t0;
 	field_t *field = NULL;
 	dim_t dim;
 
 	opterr = 0;
-	debuf = running = 1;
+	debuf = running = true;
 	srand((unsigned int)time(&t0));
 	dim = DEFAULT_DIM;
 
@@ -91,8 +96,14 @@ main(
 	if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
 		warnx("Linear texture filtering not enabled!");
 
+	if (!SDL_RenderSetLogicalSize(R, WIDTH, HEIGHT))
+		warnx("failed to set renderer's logical size");
+
 	if (SDL_CWAR(WIDTH, HEIGHT, window_flags, &window, &R)!=0)
 		SDL_die();
+
+	turn = 1;
+	gameover = false;
 
 	while (running) {
 		while (SDL_PollEvent(&e)) {
@@ -107,6 +118,28 @@ main(
 			case SDL_KEYUP:
 				debuf = 1;
 				break;;
+
+			case SDL_MOUSEBUTTONDOWN:
+				if (!gameover)
+					{
+						SDL_GetMouseState(&mx, &my);
+						if ((clicked = field_tile_at(field, mx, my)))
+							{
+								if (clicked->content == tile_blank)
+									{
+										clicked->content = turn == 1 ? tile_x : tile_o;
+										if (field_checkwin(field))
+											gameover = true;
+										turn = !turn;
+									}
+							}
+					}
+				else
+					{
+						running = 0;
+					}
+				break;;
+
 			case SDL_QUIT:
 				running = 0;
 				break;;

@@ -1,0 +1,11 @@
+## autotools
+aclocal.m4 linguist-vendored
+configure linguist-vendored
+configure.in linguist-vendored
+depcomp linguist-vendored
+missing linguist-vendored
+mkinstalldirs linguist-vendored
+Makefile.am linguist-vendored
+Makefile.in linguist-vendored
+Makefile linguist-vendored
+makefile linguist-vendored

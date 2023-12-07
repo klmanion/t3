@@ -17,6 +17,8 @@ SDL_errx(
 		SDL_LOG_PRIORITY_ERROR, fmt, ap);
 
 	va_end(ap);
+
+	SDL_Quit();
 	exit(eval);
 }
 

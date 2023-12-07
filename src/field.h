@@ -4,14 +4,13 @@
 #ifndef _FIELD_H_
 #define _FIELD_H_
 
-#include "tile.h"
-
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 
-typedef uint32_t dim_t;
-#define dim_sz (sizeof(dim_t))
+#include "tile.h"
+#include "defs.h"
 
 typedef
 struct _field {
@@ -19,6 +18,7 @@ struct _field {
 	dim_t	dim;
 	double	height;
 	double	side_len;
+	double	theta;	//board_angle
 } field_t;
 #define field_sz (sizeof(field_t))
 
@@ -29,7 +29,12 @@ field_t*	field_free __P((field_t *));
 field_t*	field_clear __P((field_t *const)) __pure;
 
 double	field_tile_height __P((const field_t *const)) __pure2;
-double	field_tile_length __P((const field_t *const)) __pure2;
+double	field_tile_width __P((const field_t *const)) __pure2;
+double	field_diameter __P((const field_t *const)) __pure2;
+double	field_tile_diameter __P((const field_t *const)) __pure2;
+
+tile_t*	field_tile_at __P((const field_t *const,const uint32_t,const uint32_t));
+bool	field_checkwin __P((field_t *const));
 
 SDL_Renderer*	field_render __P((SDL_Renderer *const,const field_t *const));
 __END_DECLS

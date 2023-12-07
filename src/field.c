@@ -94,6 +94,7 @@ field_generate(
 			for (size_t k=0; k<dim; ++k) {
 				tile_t *t = &ts[i][j][k];
 				t->content = tile_blank;
+				t->is_win = false;
 				set_pt(&t->perim.tl,	fpx[j][k],		fpy[i][j]);
 				set_pt(&t->perim.tr,	fpx[j][k+1],	fpy[i][j]);
 				set_pt(&t->perim.bl,	fpx[j+1][k],	fpy[i][j+1]);
@@ -106,6 +107,7 @@ field_generate(
 	f->dim = dim;
 	f->height = h;
 	f->side_len = s;
+	f->theta = BOARD_ANGLE;
 	return f;
 }
 
@@ -151,10 +153,148 @@ field_tile_height(
 }
 
 double __pure2
-field_tile_length(
+field_tile_width(
 	const field_t *const f)
 {
 	return f->side_len / f->dim;
+}
+
+double __pure2
+field_diameter(
+	const field_t *const f)
+{
+	return f->side_len / cos(f->theta);
+}
+
+double __pure2
+field_tile_diameter(
+	const field_t *const f)
+{
+	return field_tile_width(f) / cos(f->theta);
+}
+
+/** check_line()
+ * 		Given a starting position, and increments for each dimension,
+ * 		determine whether all traversed tiles have the same mark.
+ */
+static	bool
+check_line(
+	tile_t			***ts,
+	uint32_t		   x0,
+	uint32_t		   y0,
+	uint32_t		   z0,
+	uint32_t		   xd,
+	uint32_t		   yd,
+	uint32_t		   zd,
+	uint32_t		   len)
+{
+	uint32_t x,y,z;
+	mark_t mark;
+
+	x = x0;
+	y = y0;
+	z = z0;
+	mark = ts[z][y][x].content;
+
+	if (mark == tile_blank)
+		return false;
+
+	for (size_t ct=1; ct<len; ++ct)
+		{
+			x += xd;
+			y += yd;
+			z += zd;
+
+			if (ts[z][y][x].content != mark)
+				return false;
+		}
+
+	return true;
+}
+
+static	bool
+win_line(
+	tile_t			***ts,
+	uint32_t		   x0,
+	uint32_t		   y0,
+	uint32_t		   z0,
+	uint32_t		   xd,
+	uint32_t		   yd,
+	uint32_t		   zd,
+	uint32_t		   len)
+{
+	bool retv;
+
+	if ((retv=check_line(ts, x0,y0,z0, xd,yd,zd, len)))
+		{
+			uint32_t x,y,z;
+
+			x = x0;
+			y = y0;
+			z = z0;
+
+			for (size_t ct=0; ct<len; ++ct, x+=xd,y+=yd,z+=zd)
+				ts[z][y][x].is_win = true;		
+		}	
+	return retv;
+}
+
+/** field_checkwin()
+ * 		Checks if given field contains a winning line.
+ * 		Shall update tile's is_win member variable accordingly.
+ */
+bool
+field_checkwin(
+	field_t *const	f)
+{
+	for (size_t i=0; i<f->dim; ++i)	/* z-grid */
+		{
+			for (size_t j=0; j<f->dim; ++j)	/* y-axis */
+				{
+					if (win_line(f->tileset, 0,j,i, 1,0,0, f->dim))
+						return true;
+				}
+
+			for (size_t j=0; j<f->dim; ++j)
+				{
+					if (win_line(f->tileset, j,0,i, 0,1,0, f->dim))
+						return true;
+				}
+		}
+
+	if (win_line(f->tileset, 0,0,0, 1,1,1, f->dim))
+		return true;
+
+	if (win_line(f->tileset, f->dim-1,0,0, -1,1,1, f->dim))
+		return true;
+
+	if (win_line(f->tileset, 0,f->dim-1,0, 1,-1,1, f->dim))
+		return true;
+
+	if (win_line(f->tileset, f->dim-1,f->dim-1,0, -1,-1,1, f->dim))
+		return true;
+
+	return false;
+}
+
+tile_t*
+field_tile_at(
+	const field_t *const	f,
+	const uint32_t			x,
+	const uint32_t			y)
+{
+	pt_t pt;
+
+	pt.x = x;
+	pt.y = y;
+
+	for (size_t i=0; i<f->dim; ++i)
+		for (size_t j=0; j<f->dim; ++j)
+			for (size_t k=0; k<f->dim; ++k)
+				if (tile_has_pt(&f->tileset[i][j][k], &pt))
+					return &f->tileset[i][j][k];
+
+	return (tile_t *)NULL;
 }
 
 SDL_Renderer*
@@ -208,6 +348,10 @@ field_render(
 		}
 	}
 */
+
+	//tile contents
+	tileset_render_contents(R, ts, f->theta, f->dim);
+
 	return R;
 }
 
