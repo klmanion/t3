@@ -50,6 +50,7 @@ main(
 	SDL_Event e;
 	int my,mx;	/* mouse x and y */
 	tile_t *clicked = (tile_t *)NULL;
+	int turn;	/* 1 is x */
 	time_t t0;
 	field_t *field = NULL;
 	dim_t dim;
@@ -100,6 +101,8 @@ main(
 	if (SDL_CWAR(WIDTH, HEIGHT, window_flags, &window, &R)!=0)
 		SDL_die();
 
+	turn = 1;
+
 	while (running) {
 		while (SDL_PollEvent(&e)) {
 			switch (e.type)
@@ -117,7 +120,13 @@ main(
 			case SDL_MOUSEBUTTONDOWN:
 				SDL_GetMouseState(&mx, &my);
 				if ((clicked = field_tile_at(field, mx, my)))
-					clicked->content = tile_x;
+					{
+						if (clicked->content == tile_blank)
+							{
+								clicked->content = turn == 1 ? tile_x : tile_o;
+								turn = !turn;
+							}
+					}
 				break;;
 
 			case SDL_QUIT:
