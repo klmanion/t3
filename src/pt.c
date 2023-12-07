@@ -5,7 +5,7 @@
 
 #include <err.h>
 
-pt_t* __pure
+pt_t*
 set_pt(
 	pt_t *const pt,
 	uint32_t x,

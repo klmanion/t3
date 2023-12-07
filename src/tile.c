@@ -31,7 +31,7 @@ tile_clear(
 	return t;
 }
 
-static SDL_Renderer* __pure
+static SDL_Renderer*
 tile_render_x(
 	SDL_Renderer *R,
 	tile_t *t,
@@ -67,7 +67,7 @@ tile_render_x(
 }
 
 #include <stdio.h>
-static SDL_Renderer* __pure
+static SDL_Renderer*
 tile_render_o(
 	SDL_Renderer *R,
 	tile_t *t)
@@ -129,7 +129,7 @@ tile_render_o(
 	return R;
 }
 
-SDL_Renderer* __pure
+SDL_Renderer*
 tile_render_contents(
 	SDL_Renderer *R,
 	tile_t *t,
@@ -149,7 +149,7 @@ tile_render_contents(
 	}
 }
 
-SDL_Renderer* __pure
+SDL_Renderer*
 tileset_render_contents(
 	SDL_Renderer *R,
 	tile_t ***ts,

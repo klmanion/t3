@@ -38,10 +38,10 @@ __BEGIN_DECLS
 double	tile_sidelen __P((tile_t *t)) __pure;
 double	tile_height __P((tile_t *t)) __pure;
 
-tile_t*	tile_clear __P((tile_t *const)) __pure;
+tile_t*	tile_clear __P((tile_t *const));
 
-SDL_Renderer*	tile_render_contents __P((SDL_Renderer *,tile_t *,double)) __pure;
-SDL_Renderer*	tileset_render_contents __P((SDL_Renderer *,tile_t ***,double,dim_t)) __pure;
+SDL_Renderer*	tile_render_contents __P((SDL_Renderer *,tile_t *,double));
+SDL_Renderer*	tileset_render_contents __P((SDL_Renderer *,tile_t ***,double,dim_t));
 __END_DECLS
 
 #endif /* !_TILE_H_ */

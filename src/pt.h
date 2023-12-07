@@ -14,7 +14,7 @@ struct _pt {
 } pt_t;
 
 __BEGIN_DECLS
-pt_t*	set_pt __P((pt_t *const,uint32_t,uint32_t)) __pure;
+pt_t*	set_pt __P((pt_t *const,uint32_t,uint32_t));
 __END_DECLS
 
 #endif /* !_PT_H_ */
