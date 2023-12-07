@@ -66,7 +66,6 @@ tile_render_x(
 	return R;
 }
 
-#include <stdio.h>
 static SDL_Renderer*
 tile_render_o(
 	SDL_Renderer *R,
