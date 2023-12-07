@@ -37,9 +37,9 @@ struct _tile {
 #define tile_sz (sizeof(tile_t))
 
 __BEGIN_DECLS
-pt_t*	set_pt __P((pt_t *const,uint32_t,uint32_t)) __pure;
+pt_t*	set_pt __P((pt_t *const,uint32_t,uint32_t));
 
-tile_t*	tile_clear __P((tile_t *const)) __pure;
+tile_t*	tile_clear __P((tile_t *const));
 __END_DECLS
 
 #endif /* !_TILE_H_ */

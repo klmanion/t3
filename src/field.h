@@ -31,7 +31,7 @@ field_t*	field_clear __P((field_t *const)) __pure;
 double	field_tile_height __P((const field_t *const)) __pure2;
 double	field_tile_length __P((const field_t *const)) __pure2;
 
-SDL_Renderer*	field_render __P((SDL_Renderer *const,const field_t *const)) __pure;
+SDL_Renderer*	field_render __P((SDL_Renderer *const,const field_t *const));
 __END_DECLS
 
 #endif /* !_FIELD_H_ */

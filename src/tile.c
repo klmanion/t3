@@ -6,7 +6,7 @@
 #include <err.h>
 #include <math.h>
 
-pt_t* __pure
+pt_t*
 set_pt(
 	pt_t *const pt,
 	uint32_t x,
@@ -24,7 +24,7 @@ set_pt(
 
 /* set tile's content to blank
  * used by field_clear() */
-tile_t* __pure
+tile_t*
 tile_clear(
 	tile_t *const t)
 {
