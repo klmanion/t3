@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 
 #include "defs.h"
@@ -39,6 +40,8 @@ double	tile_sidelen __P((tile_t *t)) __pure;
 double	tile_height __P((tile_t *t)) __pure;
 
 tile_t*	tile_clear __P((tile_t *const));
+
+bool	tile_has_pt __P((const tile_t *const,const pt_t *const));
 
 SDL_Renderer*	tile_render_contents __P((SDL_Renderer *,tile_t *,double));
 SDL_Renderer*	tileset_render_contents __P((SDL_Renderer *,tile_t ***,double,dim_t));

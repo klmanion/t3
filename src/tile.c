@@ -31,6 +31,19 @@ tile_clear(
 	return t;
 }
 
+/* TODO
+ * placeholder to test clicking
+ * does not properly compute whether a point falls within given tile
+ */
+bool
+tile_has_pt(
+	const tile_t *const	t,
+	const pt_t *const	pt)
+{
+	return (pt->y >= t->perim.tl.y && pt->y <= t->perim.br.y)
+		&& (pt->x <= t->perim.tr.x && pt->x >= t->perim.bl.x);
+}
+
 static SDL_Renderer*
 tile_render_x(
 	SDL_Renderer *R,

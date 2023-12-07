@@ -32,6 +32,8 @@ double	field_tile_width __P((const field_t *const)) __pure2;
 double	field_diameter __P((const field_t *const)) __pure2;
 double	field_tile_diameter __P((const field_t *const)) __pure2;
 
+tile_t*	field_tile_at __P((const field_t *const,const uint32_t,const uint32_t));
+
 SDL_Renderer*	field_render __P((SDL_Renderer *const,const field_t *const));
 __END_DECLS
 

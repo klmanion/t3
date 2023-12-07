@@ -48,6 +48,8 @@ main(
 	const char *const basename = argv[0];
 	bool debuf, running;
 	SDL_Event e;
+	int my,mx;	/* mouse x and y */
+	tile_t *clicked = (tile_t *)NULL;
 	time_t t0;
 	field_t *field = NULL;
 	dim_t dim;
@@ -111,6 +113,13 @@ main(
 			case SDL_KEYUP:
 				debuf = 1;
 				break;;
+
+			case SDL_MOUSEBUTTONDOWN:
+				SDL_GetMouseState(&mx, &my);
+				if ((clicked = field_tile_at(field, mx, my)))
+					clicked->content = tile_x;
+				break;;
+
 			case SDL_QUIT:
 				running = 0;
 				break;;

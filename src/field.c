@@ -172,6 +172,26 @@ field_tile_diameter(
 	return field_tile_width(f) / cos(f->theta);
 }
 
+tile_t*
+field_tile_at(
+	const field_t *const	f,
+	const uint32_t			x,
+	const uint32_t			y)
+{
+	pt_t pt;
+
+	pt.x = x;
+	pt.y = y;
+
+	for (size_t i=0; i<f->dim; ++i)
+		for (size_t j=0; j<f->dim; ++j)
+			for (size_t k=0; k<f->dim; ++k)
+				if (tile_has_pt(&f->tileset[i][j][k], &pt))
+					return &f->tileset[i][j][k];
+
+	return (tile_t *)NULL;
+}
+
 SDL_Renderer*
 field_render(
 	SDL_Renderer *const R,
