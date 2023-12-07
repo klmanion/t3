@@ -32,6 +32,7 @@ typedef
 struct _tile {
 	mark_t	content;
 	parl_t	perim;
+	bool	is_win;
 } tile_t;
 #define tile_sz (sizeof(tile_t))
 

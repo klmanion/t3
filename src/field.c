@@ -94,6 +94,7 @@ field_generate(
 			for (size_t k=0; k<dim; ++k) {
 				tile_t *t = &ts[i][j][k];
 				t->content = tile_blank;
+				t->is_win = false;
 				set_pt(&t->perim.tl,	fpx[j][k],		fpy[i][j]);
 				set_pt(&t->perim.tr,	fpx[j][k+1],	fpy[i][j]);
 				set_pt(&t->perim.bl,	fpx[j+1][k],	fpy[i][j+1]);
@@ -170,6 +171,110 @@ field_tile_diameter(
 	const field_t *const f)
 {
 	return field_tile_width(f) / cos(f->theta);
+}
+
+/** check_line()
+ * 		Given a starting position, and increments for each dimension,
+ * 		determine whether all traversed tiles have the same mark.
+ */
+static	bool
+check_line(
+	tile_t			***ts,
+	uint32_t		   x0,
+	uint32_t		   y0,
+	uint32_t		   z0,
+	uint32_t		   xd,
+	uint32_t		   yd,
+	uint32_t		   zd,
+	uint32_t		   len)
+{
+	uint32_t x,y,z;
+	mark_t mark;
+
+	x = x0;
+	y = y0;
+	z = z0;
+	mark = ts[z][y][x].content;
+
+	if (mark == tile_blank)
+		return false;
+
+	for (size_t ct=1; ct<len; ++ct)
+		{
+			x += xd;
+			y += yd;
+			z += zd;
+
+			if (ts[z][y][x].content != mark)
+				return false;
+		}
+
+	return true;
+}
+
+/** field_checkwin()
+ * 		Checks if given field contains a winning line.
+ * 		Shall update tile's is_win member variable accordingly.
+ */
+bool
+field_checkwin(
+	field_t *const	f)
+{
+	tile_t ***ts = f->tileset;
+	bool win;
+
+	for (size_t i=0; i<f->dim; ++i)	/* z-grid */
+		{
+			/* check horizontal */
+			for (size_t j=0; j<f->dim; ++j) /* y-axis */
+				{
+					if (ts[i][j][0].content != tile_blank)
+						{
+							win = true;
+							for (size_t k=1; k<f->dim; ++k) /* x-axis */
+								{
+									if (ts[i][j][k].content != ts[i][j][0].content)
+										{
+											win = false;
+											break;
+										}
+								}
+
+							if (win)
+								{
+									for (size_t k=0; k<f->dim; ++k)
+										ts[i][j][k].is_win = true;
+								}
+						}
+				}
+
+			/* check vertical */
+			for (size_t j=0; j<f->dim; ++j)	/* x-axis */
+				{
+					if (ts[i][0][j].content != tile_blank)
+						{
+							win = true;
+							for (size_t k=1; k<f->dim; ++k)	/* y-axis */
+								{
+									if (ts[i][k][j].content != ts[i][0][j].content)
+										{
+											win = false;
+											break;
+										}
+								}
+
+							if (win)
+								{
+									for (size_t k=0; k<f->dim; ++k)
+										ts[i][k][j].is_win = true;
+								}
+						}
+				}
+		}
+
+	/* diagonal win conditions */
+
+	return win;
 }
 
 tile_t*

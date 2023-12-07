@@ -51,6 +51,7 @@ main(
 	int my,mx;	/* mouse x and y */
 	tile_t *clicked = (tile_t *)NULL;
 	int turn;	/* 1 is x */
+	bool gameover;
 	time_t t0;
 	field_t *field = NULL;
 	dim_t dim;
@@ -102,6 +103,7 @@ main(
 		SDL_die();
 
 	turn = 1;
+	gameover = false;
 
 	while (running) {
 		while (SDL_PollEvent(&e)) {
@@ -118,14 +120,23 @@ main(
 				break;;
 
 			case SDL_MOUSEBUTTONDOWN:
-				SDL_GetMouseState(&mx, &my);
-				if ((clicked = field_tile_at(field, mx, my)))
+				if (!gameover)
 					{
-						if (clicked->content == tile_blank)
+						SDL_GetMouseState(&mx, &my);
+						if ((clicked = field_tile_at(field, mx, my)))
 							{
-								clicked->content = turn == 1 ? tile_x : tile_o;
-								turn = !turn;
+								if (clicked->content == tile_blank)
+									{
+										clicked->content = turn == 1 ? tile_x : tile_o;
+										if (field_checkwin(field))
+											gameover = true;
+										turn = !turn;
+									}
 							}
+					}
+				else
+					{
+						running = 0;
 					}
 				break;;
 

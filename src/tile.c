@@ -33,7 +33,7 @@ tile_clear(
 
 /* TODO
  * placeholder to test clicking
- * does not properly compute whether a point falls within given tile
+ * does not faithfully compute whether a point falls within given tile
  */
 bool
 tile_has_pt(
@@ -66,8 +66,6 @@ tile_render_x(
 	sxm = (uint32_t)lround(ms - b);
 	lxm = (uint32_t)lround(ms + b);
 	ym = (uint32_t)lround(ms/2 * cos(M_PI_2 - 2*theta));
-
-	SDL_SetRenderDrawColor(R, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	SDL_RenderDrawLine(R,
 		t->perim.tl.x + sxm,	t->perim.tl.y + ym,
@@ -120,8 +118,6 @@ tile_render_o(
 		set_pt(&bl[x],		h-x,	k+y);
 	}
 
-	SDL_SetRenderDrawColor(R, 0xFF, 0xFF, 0xFF, 0xFF);
-
 	for (size_t i=0; i<cuts*4; ++i)
 		SDL_RenderDrawLine(R,
 			circum[i].x,	circum[i].y,
@@ -139,6 +135,11 @@ tile_render_contents(
 	tile_t *t,
 	double theta)
 {
+	if (!t->is_win)
+		SDL_SetRenderDrawColor(R, 0xFF, 0xFF, 0xFF, 0xFF);
+	else
+		SDL_SetRenderDrawColor(R, 0xFF, 0x0, 0x0, 0xFF);
+
 	switch (t->content)
 	{
 	case tile_blank:
