@@ -20,7 +20,7 @@ AC_CHECK_LIB([m], sin,
 	     [LIBS="$LIBS -lm"],
 	     [AC_MSG_ERROR([could not find math])])
 
-C_CHECK_INCLUDES_DEFAULT
+AC_CHECK_INCLUDES_DEFAULT
 AC_PROG_EGREP
 
 AC_FUNC_MALLOC
