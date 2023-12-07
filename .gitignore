@@ -23,3 +23,9 @@ Makefile
 
 # m4
 autom4te.cache
+
+# cscope
+cscope.out
+
+# tags
+tags
