@@ -212,6 +212,33 @@ check_line(
 	return true;
 }
 
+static	bool
+win_line(
+	tile_t			***ts,
+	uint32_t		   x0,
+	uint32_t		   y0,
+	uint32_t		   z0,
+	uint32_t		   xd,
+	uint32_t		   yd,
+	uint32_t		   zd,
+	uint32_t		   len)
+{
+	bool retv;
+
+	if ((retv=check_line(ts, x0,y0,z0, xd,yd,zd, len)))
+		{
+			uint32_t x,y,z;
+
+			x = x0;
+			y = y0;
+			z = z0;
+
+			for (size_t ct=0; ct<len; ++ct, x+=xd,y+=yd,z+=zd)
+				ts[z][y][x].is_win = true;		
+		}	
+	return retv;
+}
+
 /** field_checkwin()
  * 		Checks if given field contains a winning line.
  * 		Shall update tile's is_win member variable accordingly.
@@ -224,27 +251,27 @@ field_checkwin(
 		{
 			for (size_t j=0; j<f->dim; ++j)	/* y-axis */
 				{
-					if (check_line(f->tileset, 0,j,i, 1,0,0, f->dim))
+					if (win_line(f->tileset, 0,j,i, 1,0,0, f->dim))
 						return true;
 				}
 
 			for (size_t j=0; j<f->dim; ++j)
 				{
-					if (check_line(f->tileset, j,0,i, 0,1,0, f->dim))
+					if (win_line(f->tileset, j,0,i, 0,1,0, f->dim))
 						return true;
 				}
 		}
 
-	if (check_line(f->tileset, 0,0,0, 1,1,1, f->dim))
+	if (win_line(f->tileset, 0,0,0, 1,1,1, f->dim))
 		return true;
 
-	if (check_line(f->tileset, f->dim-1,0,0, -1,1,1, f->dim))
+	if (win_line(f->tileset, f->dim-1,0,0, -1,1,1, f->dim))
 		return true;
 
-	if (check_line(f->tileset, 0,f->dim-1,0, 1,-1,1, f->dim))
+	if (win_line(f->tileset, 0,f->dim-1,0, 1,-1,1, f->dim))
 		return true;
 
-	if (check_line(f->tileset, f->dim-1,f->dim-1,0, -1,-1,1, f->dim))
+	if (win_line(f->tileset, f->dim-1,f->dim-1,0, -1,-1,1, f->dim))
 		return true;
 
 	return false;
