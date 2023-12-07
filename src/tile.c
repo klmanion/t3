@@ -102,21 +102,13 @@ tile_render_o(
 
 	for (int32_t x=0; x<=cuts; ++x) {
 		int32_t y = lround(sqrt(pow(B,2) * (1 - pow(x,2)/pow(A,2))));
-		printf("%d,%d\n", x, y);
 		set_pt(&tl[cuts-x],	h-x,	k-y);
 		set_pt(&tr[x],		h+x,	k-y);
 		set_pt(&br[cuts-x],	h+x,	k+y);
 		set_pt(&bl[x],		h-x,	k+y);
 	}
 
-	printf("for tile %#x\n", (unsigned int)t);
-	printf("cuts=%d\n", cuts);
-	printf("array length: %zu\n", sizeof(circum)/sizeof(circum[0]));
-	for (size_t i=0; i<=cuts*4; ++i)
-		printf("%zu: %d,%d\n", i, circum[i].x, circum[i].y);
-
-	//SDL_SetRenderDrawColor(R, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_SetRenderDrawColor(R, 0xFF, 0x0, 0x0, 0xFF);
+	SDL_SetRenderDrawColor(R, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	for (size_t i=0; i<cuts*4; ++i)
 		SDL_RenderDrawLine(R,
