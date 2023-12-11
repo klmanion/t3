@@ -1,6 +1,8 @@
 //main.c
 //
 
+#include "defs.h"
+
 #include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,9 +34,6 @@ const struct option longopts[] = {
 	{ NULL, 0, NULL, 0 }
 };
 
-SDL_Window *window = NULL;
-SDL_Renderer *R = NULL;
-
 void	usage(const char *) __dead2;
 
 int
@@ -47,6 +46,8 @@ main(
 	char ch;
 	const char *const basename = argv[0];
 	bool debuf, running;
+	SDL_Window *window = NULL;
+	SDL_Renderer *R = NULL;
 	SDL_Event e;
 	int my,mx;	/* mouse x and y */
 	tile_t *clicked = (tile_t *)NULL;

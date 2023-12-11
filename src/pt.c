@@ -8,8 +8,8 @@
 pt_t*
 set_pt(
 	pt_t *const pt,
-	uint32_t x,
-	uint32_t y)
+	const uint32_t x,
+	const uint32_t y)
 {
 	if (!pt)
 		errx(1, "unallocated pt_t * sent to set_pt: %s, %d",

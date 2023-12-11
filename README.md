@@ -1,13 +1,13 @@
 # t3
-A game of advanced Tic-Tac-Toe.
+A game of 3D Tic-Tac-Toe.
 
 # Summary
 Inspired by Atari's 3D tic-tac-toe which I played as a kid,
-I started this project 6 years ago, and left it unfinished until now.
+I started this project 6 years ago during a trip to Philly, and had left it unfinished until now.
 
 It is now playable and winable.
 
-The board is programmatic, and you can set the dimensions with the `-d` switch.
+The board's is programmatically drawn, so you can set the dimensions with the `-d` switch.
 Don't forget to check out this math in the code.
 
 ## Historical note
@@ -21,3 +21,6 @@ This project is built using autotools, so to build just type:
 ./autogen.sh
 ./configure && make
 ```
+
+## Testing
+Has been tested on FreeBSD and Debian.

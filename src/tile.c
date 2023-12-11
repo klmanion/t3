@@ -101,7 +101,8 @@ tile_render_o(
 
 	cuts = floor(A);
 
-	pt_t circum[cuts*4];
+	pt_t circum[cuts*4+1];
+
 	tl = &circum[0];
 	tr = &circum[cuts];
 	br = &circum[cuts*2];
@@ -111,7 +112,10 @@ tile_render_o(
 	k = lround(p->tl.y + th/2);
 
 	for (int32_t x=0; x<=cuts; ++x) {
-		int32_t y = lround(sqrt(pow(B,2) * (1 - pow(x,2)/pow(A,2))));
+		int32_t y;
+		
+		y = lround(sqrt(pow(B,2) * (1 - pow(x,2)/pow(A,2))));
+
 		set_pt(&tl[cuts-x],	h-x,	k-y);
 		set_pt(&tr[x],		h+x,	k-y);
 		set_pt(&br[cuts-x],	h+x,	k+y);

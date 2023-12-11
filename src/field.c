@@ -177,7 +177,7 @@ field_tile_diameter(
  * 		Given a starting position, and increments for each dimension,
  * 		determine whether all traversed tiles have the same mark.
  */
-static	bool
+bool
 check_line(
 	tile_t			***ts,
 	uint32_t		   x0,
@@ -212,7 +212,7 @@ check_line(
 	return true;
 }
 
-static	bool
+bool
 win_line(
 	tile_t			***ts,
 	uint32_t		   x0,
@@ -262,16 +262,38 @@ field_checkwin(
 				}
 		}
 
+//	if (win_line(f->tileset, 0,0,0, 1,1,1, f->dim))
+//		return true;
+//
+//	if (win_line(f->tileset, f->dim-1,0,0, -1,1,1, f->dim))
+//		return true;
+//
+//	if (win_line(f->tileset, 0,f->dim-1,0, 1,-1,1, f->dim))
+//		return true;
+//
+//	if (win_line(f->tileset, f->dim-1,f->dim-1,0, -1,-1,1, f->dim))
+//		return true;
+
+	/* tl->br diag one z-grid */
+	for (size_t z=0; z<f->dim; ++z)
+		{
+			if (win_line(f->tileset, 0,0,z, 1,1,0, f->dim))
+				return true;
+		}
+
+	/* tr->bl diag on z-grid */
+	for (size_t z=0; z<f->dim; ++z)
+		{
+			if (win_line(f->tileset, f->dim-1,0,z, -1,1,0, f->dim))
+				return true;
+		}
+
+	/* tl_z0->br_zf */
 	if (win_line(f->tileset, 0,0,0, 1,1,1, f->dim))
 		return true;
 
+	/* tr_z0->bl_zf */
 	if (win_line(f->tileset, f->dim-1,0,0, -1,1,1, f->dim))
-		return true;
-
-	if (win_line(f->tileset, 0,f->dim-1,0, 1,-1,1, f->dim))
-		return true;
-
-	if (win_line(f->tileset, f->dim-1,f->dim-1,0, -1,-1,1, f->dim))
 		return true;
 
 	return false;

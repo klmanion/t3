@@ -2,6 +2,7 @@
 
 *.swp
 .deps
+*~
 
 # automake
 Makefile.in
