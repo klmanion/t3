@@ -9,7 +9,7 @@ AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
-AC_PROG_CC
+AC_PROG_CC([clang])
 AC_LANG([C])
 
 PKG_CHECK_MODULES([SDL], [sdl2 >= 2.0.0],
