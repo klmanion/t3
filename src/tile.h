@@ -37,15 +37,15 @@ struct _tile {
 #define tile_sz (sizeof(tile_t))
 
 __BEGIN_DECLS
-double	tile_sidelen __P((tile_t *t)) __pure;
-double	tile_height __P((tile_t *t)) __pure;
+double	tile_sidelen (tile_t *t) __pure;
+double	tile_height (tile_t *t) __pure;
 
-tile_t*	tile_clear __P((tile_t *const));
+tile_t*	tile_clear (tile_t *const);
 
-bool	tile_has_pt __P((const tile_t *const,const pt_t *const));
+bool	tile_has_pt (const tile_t *const,const pt_t *const);
 
-SDL_Renderer*	tile_render_contents __P((SDL_Renderer *,tile_t *,double));
-SDL_Renderer*	tileset_render_contents __P((SDL_Renderer *,tile_t ***,double,dim_t));
+SDL_Renderer*	tile_render_contents (SDL_Renderer *,tile_t *,double);
+SDL_Renderer*	tileset_render_contents (SDL_Renderer *,tile_t ***,double,dim_t);
 __END_DECLS
 
 #endif /* !_TILE_H_ */
