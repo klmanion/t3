@@ -16,9 +16,20 @@ PKG_CHECK_MODULES([SDL], [sdl2 >= 2.0.0],
 		  [CFLAGS="$CFLAGS $SDL_CFLAGS" LIBS="$LIBS $SDL_LIBS"],
 		  AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
-AC_CHECK_LIB([m], sin,
+AC_CHECK_LIB([m], [sin],
 	     [LIBS="$LIBS -lm"],
-	     [AC_MSG_ERROR([could not find math])])
+	     AC_MSG_ERROR([could not find math]))
+
+#PKG_CHECK_MODULES([bsd], [sys/cdefs.h],
+#	     [CFLAGS="$CFLAGS -isystem /usr/include/bsd -DLIBBSD_OVERLAY"
+#	      LIBS="$LIBS -lbsd"],
+#	     AC_MSG_ERROR([could not find libbsd]))
+
+AC_CHECK_LIB([bsd], [getopt_long],
+	     [CFLAGS="$CFLAGS -isystem /usr/include/bsd -DLIBBSD_OVERLAY"
+	      LIBS="$LIBS -lbsd"],
+	     AC_MSG_ERROR([could not find libbsd]))
+
 
 AC_CHECK_INCLUDES_DEFAULT
 AC_PROG_EGREP
