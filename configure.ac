@@ -25,7 +25,7 @@ AC_CHECK_LIB([m], [sin],
 #	      LIBS="$LIBS -lbsd"],
 #	     AC_MSG_ERROR([could not find libbsd]))
 
-AS_IF([test x"$OSTYPE" = x"gnu-linux"],
+AS_IF([test x"$OSTYPE" = x"linux-gnu"],
       [AC_CHECK_LIB([bsd], [getopt_long],
 		    [CFLAGS="$CFLAGS -isystem /usr/include/bsd -DLIBBSD_OVERLAY"
 		     LIBS="$LIBS -lbsd"],
